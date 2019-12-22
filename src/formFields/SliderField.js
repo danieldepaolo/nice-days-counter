@@ -13,13 +13,12 @@ class SliderField extends React.Component {
           value={this.props.value}
           onChange={this.handleChange}
           marks={this.props.marks}
-          valueLabelDisplay="auto"
+          valueLabelDisplay={this.props.valueLabelDisplay || "auto"}
           aria-labelledby="range-slider"
           getAriaValueText={v => `${v}F`}
           min={this.props.min}
           max={this.props.max}
           step={this.props.step}
-          valueLabelDisplay={this.props.valueLabelDisplay || "auto"}
         />
         <Typography id="range-slider">
           {this.props.label}

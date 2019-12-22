@@ -7,3 +7,16 @@ export const isNiceDay = (dailyData, userFields) => {
       dailyData.precipIntensity <= userFields.maxPrecipIntensity)
   );
 };
+
+export const getCityNameFromRecord = record =>
+  `${record.fields.city}, ${record.fields.state}`
+
+export const getMonthLabelWithChartWidth = (label, width) => {
+  if (width > 930) {
+    return label;
+  } else if (width > 480) {
+    return label.substr(0, 3);
+  } else {
+    return label[0];
+  }
+};

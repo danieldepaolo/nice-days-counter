@@ -2,71 +2,77 @@ import React from 'react';
 import './App.css';
 import moment from 'moment';
 import axios from 'axios';
+import cloneDeep from 'lodash/cloneDeep';
 import { Button } from '@material-ui/core';
 
 import { isNiceDay } from './helpers';
-import { cityDataMap } from './cities';
 import NiceDayForm from './NiceDayForm';
 import QueryForm from './QueryForm';
-
-const defaultNiceDayForm = {
-  tempRange: [52, 88],
-  maxPrecipIntensity: 0.005,
-  maxCloudCover: 6
-};
-
-const defaultQueryForm = {
-  city: Object.keys(cityDataMap)[0],
-  year: '2018'
-};
-
-const numQueryDays = 365;
+import {
+  numQueryDays,
+  defaultNiceDayForm,
+  defaultQueryForm,
+  defaultMonthNiceDays
+} from './constants';
+import Results from './Results';
 
 class App extends React.Component {
   state = {
     niceDayFormValues: defaultNiceDayForm,
     queryFormValues: defaultQueryForm,
-    results: {}
+    results: {},
+    loading: false,
+    reqErr: false
   };
 
   compileResults = dayArray => {
-    const numNiceDays = dayArray.reduce( (niceDays, day) => {
-      return isNiceDay(day.data.daily.data[0], this.state.niceDayFormValues)
-        ? niceDays + 1
-        : niceDays;
-    }, 0);
+    const monthNiceDays = cloneDeep(defaultMonthNiceDays);
+    let niceDayCount = 0;
+    dayArray.forEach(day => {
+      if (isNiceDay(day.data.daily.data[0], this.state.niceDayFormValues)) {
+        niceDayCount++;
+        const time = moment.unix(day.data.daily.data[0].time);
+        monthNiceDays[time.format("MMMM")].push(day.data);
+      }
+    });
 
     const { city, year } = this.state.queryFormValues;
-    this.setState(state => ({
-      ...state,
+    this.setState({
       results: {
         city,
-        date: moment(`${year}-01-01`),
-        niceDayCount: numNiceDays
-      }
-    }));
+        year,
+        monthNiceDays,
+        niceDayCount
+      },
+      loading: false,
+      reqErr: false
+    });
   }
 
   handleSubmitQuery = () => {
-    const { city, year } = this.state.queryFormValues;
-    const cityData = cityDataMap[city];
-
+    this.setState({ loading: true, reqErr: false, results: {}});
+  
+    const { city: { value }, year } = this.state.queryFormValues;
     const day = moment(`${year}-01-01`);
     let promises = []
     for (let i = 0; i < numQueryDays; ++i) {
       const url = `https://api.darksky.net/forecast/068b0b5412063369e7fb834c6a8eb58d/${
-        cityData.location[0]
-      },${cityData.location[1]},${`${day.format("YYYY-MM-DD")}T00:00:00`}?exclude=currently,hourly`;
+        value.geometry.coordinates[1]
+      },${value.geometry.coordinates[0]
+      },${`${day.format("YYYY-MM-DD")}T00:00:00`}?exclude=currently,hourly`;
 
       promises.push(axios(url));
       day.add(1, 'days');
     }
 
-    Promise.all(promises).then(response => this.compileResults(response));
+    Promise.all(promises)
+      .then(this.compileResults)
+      .catch(err => {
+        this.setState({ reqErr: true, loading: false })
+      });
   }
 
   render() {
-    const { city, niceDayCount } = this.state.results;
     return (
       <div className="App">
         <NiceDayForm
@@ -81,16 +87,16 @@ class App extends React.Component {
           variant="contained"
           color="primary"
           className="submit-btn"
+          disabled={!this.state.queryFormValues.city || this.state.loading}
           onClick={this.handleSubmitQuery}
         >
-          Submit
+          See Results
         </Button>
-        {city &&
-          <div className="results-area">
-            <label>{cityDataMap[city].title}</label>
-            {niceDayCount} Nice Days ({(niceDayCount / numQueryDays * 100).toFixed(1)}%)
-          </div>
-        }
+        <Results
+          data={this.state.results}
+          loading={this.state.loading}
+          error={this.state.reqErr}
+        />
       </div>
     );
   }
