@@ -75,23 +75,25 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <NiceDayForm
-          fieldState={this.state.niceDayFormValues}
-          onChange={state => this.setState({ niceDayFormValues: state })}
-        />
-        <QueryForm
-          fieldState={this.state.queryFormValues}
-          onChange={state => this.setState({ queryFormValues: state })}
-        />
-        <Button
-          variant="contained"
-          color="primary"
-          className="submit-btn"
-          disabled={!this.state.queryFormValues.city || this.state.loading}
-          onClick={this.handleSubmitQuery}
-        >
-          See Results
-        </Button>
+        <div className="form-area">
+          <NiceDayForm
+            fieldState={this.state.niceDayFormValues}
+            onChange={state => this.setState({ niceDayFormValues: state })}
+          />
+          <QueryForm
+            fieldState={this.state.queryFormValues}
+            onChange={state => this.setState({ queryFormValues: state })}
+          />
+          <Button
+            variant="contained"
+            color="primary"
+            className="submit-btn"
+            disabled={!this.state.queryFormValues.city || this.state.loading}
+            onClick={this.handleSubmitQuery}
+          >
+            See Results
+          </Button>
+        </div>
         <Results
           data={this.state.results}
           loading={this.state.loading}

@@ -1,5 +1,6 @@
 import React from 'react';
 import map from 'lodash/map';
+import startCase from 'lodash/startCase';
 import {
   BarChart,
   Bar,
@@ -7,13 +8,21 @@ import {
   ResponsiveContainer,
   Tooltip,
   XAxis,
-  YAxis
+  YAxis,
+  CartesianGrid
 } from 'recharts';
 import Loader from 'react-loader-spinner';
-import { SizeMe } from 'react-sizeme';
 
-import { numQueryDays, maxNiceDaysInMonth } from './constants';
+import { maxNiceDaysInMonth } from './constants';
 import { getMonthLabelWithChartWidth } from './helpers';
+import {
+  Button,
+  Paper,
+  Card,
+  CardActions,
+  CardContent,
+  Typography
+} from '@material-ui/core';
 
 const XTick = ({
   payload: { value },
@@ -34,12 +43,18 @@ class Results extends React.Component {
       month,
       niceDays: days.length
     }));
-    
+
+  cityUrl = () =>
+    this.props.data.city
+      ? `https://en.wikipedia.org/wiki/${
+            this.props.data.city.label.replace(' ', '_')}`
+      : null;
 
   render = () => {
-    const { city, niceDayCount } = this.props.data;
+    const { city, year, niceDayCount } = this.props.data;      
     return (
       <div className="results-area">
+        <div className="centered-block">
         {this.props.loading &&
           <Loader
             type="Puff"
@@ -52,30 +67,55 @@ class Results extends React.Component {
             Unable to retrieve data. Please try again later.
           </div>}
         {city &&
-          <div className="centered-block">
-            <label>{city.label}</label>
-            {niceDayCount} Nice Days ({(niceDayCount / numQueryDays * 100).toFixed(1)}%)
-            <SizeMe>
-              {({ size }) =>
-                <ResponsiveContainer
-                  width="70%"
-                  height={250}
-                  minWidth={320}
+          <>
+            <Card variant="outlined" raised>
+              <CardContent>
+                <Typography variant="h6">
+                  {city.label}
+                </Typography>
+                <Typography
+                  color="textSecondary"
+                  variant="subtitle2"
+                  style={{ marginBottom: 15 }}
                 >
-                  <BarChart data={this.collectChartData()}>
-                    <XAxis
-                      dataKey="month"
-                      tick={<XTick />}
-                      minTickGap={-50}
-                    />
-                    <YAxis domain={[0, maxNiceDaysInMonth]} width={30} />
-                    <Tooltip />
-                    <Legend />
-                    <Bar dataKey="niceDays" fill="#8884d8" />
-                  </BarChart>
-                </ResponsiveContainer>}
-            </SizeMe>
-          </div>}
+                  {`Population ${
+                    Number(city.value.fields.population).toLocaleString()}`}
+                </Typography>
+                <Typography>
+                  {niceDayCount} nice days in {year}
+                </Typography>
+              </CardContent>
+              <CardActions>
+                <a
+                  href={this.cityUrl()}
+                  className="better-link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Button size="small">
+                    Learn More
+                  </Button> 
+                </a>
+              </CardActions>
+            </Card>
+            <Paper elevation={1} className="bar-chart-wrapper">
+              <ResponsiveContainer>
+                <BarChart data={this.collectChartData()}>
+                  <CartesianGrid />
+                  <XAxis
+                    dataKey="month"
+                    tick={<XTick />}
+                    minTickGap={-50}
+                  />
+                  <YAxis domain={[0, maxNiceDaysInMonth]} width={30} />
+                  <Tooltip formatter={(value, name) => [value, startCase(name)]} />
+                  <Legend formatter={startCase} />
+                  <Bar dataKey="niceDays" fill="#8884d8" />
+                </BarChart>
+              </ResponsiveContainer>
+            </Paper>
+          </>}
+        </div>
       </div>
     );
   }

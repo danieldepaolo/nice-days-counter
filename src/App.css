@@ -1,6 +1,13 @@
 .App {
   font-family: 'Roboto', sans-serif;
+}
+
+.form-area {
   text-align: center;
+}
+
+.better-link {
+  text-decoration: none;
 }
 
 .centered-block {
@@ -25,8 +32,8 @@
 }
 
 .MuiButton-root.submit-btn {
-  margin: 2em 0 1em 0;
-  padding: 8px 55px;
+  margin: 1.8em 0 1em 0;
+  padding: 8px 40px;
 }
 
 p.MuiTypography-gutterBottom {
@@ -40,4 +47,13 @@ p.MuiTypography-gutterBottom {
 .results-area label {
   margin-right: 10px;
   font-weight: bold;
+}
+
+.bar-chart-wrapper {
+  width: 70%;
+  height: 280px;
+  min-width: 330px;
+  max-width: 1000px;
+  margin-top: 10px;
+  padding: 20px 15px 10px 10px;
 }
