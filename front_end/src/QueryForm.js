@@ -28,34 +28,32 @@ class QueryForm extends React.Component {
       <div className="query-form">
         <h3>What city and year?</h3>
         <Form state={this.props.fieldState} onChange={this.props.onChange}>
-          <div className="centered-block">
-            <Field
-              fieldName="city"
-              label="City"
-              type={Select}
-              placeholder="Select a city..."
-              filterOption={createFilter({ignoreAccents: false})}
-              styles={{
-                container: provided => ({
-                  ...provided,
-                  width: 265,
-                  marginBottom: 15
-                })
-              }}
-              options={this.getTopCities().map(record => {
-                return {
-                  value: record,
-                  label: getCityNameFromRecord(record)
-                };
-              })}
-            />
-            <Field
-              fieldName="year"
-              label="Year"
-              type={DropdownField}
-              options={yearOptions}
-            />
-          </div>
+          <Field
+            fieldName="city"
+            label="City"
+            type={Select}
+            placeholder="Select a city..."
+            filterOption={createFilter({ignoreAccents: false})}
+            styles={{
+              container: provided => ({
+                ...provided,
+                width: 265,
+                marginBottom: 15
+              })
+            }}
+            options={this.getTopCities().map(record => {
+              return {
+                value: record,
+                label: getCityNameFromRecord(record)
+              };
+            })}
+          />
+          <Field
+            fieldName="year"
+            label="Year"
+            type={DropdownField}
+            options={yearOptions}
+          />
         </Form>
       </div>
     )

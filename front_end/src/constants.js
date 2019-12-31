@@ -1,5 +1,3 @@
-export const numQueryDays = 365; // Easy solution for now
-
 export const defaultNiceDayForm = {
   tempRange: [52, 88],
   maxPrecipIntensity: 0.005,

@@ -54,7 +54,6 @@ class Results extends React.Component {
     const { city, year, niceDayCount } = this.props.data;      
     return (
       <div className="results-area">
-        <div className="centered-block">
         {this.props.loading &&
           <Loader
             type="Puff"
@@ -68,7 +67,7 @@ class Results extends React.Component {
           </div>}
         {city &&
           <>
-            <Card variant="outlined" raised>
+            <Card variant="outlined" classes={{ root: "city-results-card"}}>
               <CardContent>
                 <Typography variant="h6">
                   {city.label}
@@ -115,7 +114,6 @@ class Results extends React.Component {
               </ResponsiveContainer>
             </Paper>
           </>}
-        </div>
       </div>
     );
   }

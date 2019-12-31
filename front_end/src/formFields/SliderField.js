@@ -7,22 +7,23 @@ class SliderField extends React.Component {
   };
 
   render() {
+    const id = `range-slider-${this.props.label}`;
     return (
       <div className="slider-input">
+        <Typography id={id}>
+          {this.props.label}
+        </Typography>
         <Slider
           value={this.props.value}
           onChange={this.handleChange}
           marks={this.props.marks}
           valueLabelDisplay={this.props.valueLabelDisplay || "auto"}
-          aria-labelledby="range-slider"
+          aria-labelledby={id}
           getAriaValueText={v => `${v}F`}
           min={this.props.min}
           max={this.props.max}
           step={this.props.step}
         />
-        <Typography id="range-slider">
-          {this.props.label}
-        </Typography>
       </div>
     );
   }

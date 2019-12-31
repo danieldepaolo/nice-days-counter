@@ -1,9 +1,10 @@
-.App {
+body {
   font-family: 'Roboto', sans-serif;
 }
 
-.form-area {
-  text-align: center;
+.app-heading {
+  border-bottom: 1px solid rgba(0,0,0,0.2);
+  padding-bottom: 8px;
 }
 
 .better-link {
@@ -22,9 +23,8 @@
 
 .slider-input {
   width: 82%;
-  max-width: 500px;
-  margin: 0 auto;
-  padding: 20px 10px 3px 10px;
+  max-width: 550px;
+  padding: 20px 15px 3px 15px;
 }
 
 .query-form .MuiFormControl-root {
@@ -41,7 +41,7 @@ p.MuiTypography-gutterBottom {
 }
 
 .results-area {
-  padding: 1.5em 0.5em;
+  padding: 1.5em 0em;
 }
 
 .results-area label {
@@ -56,4 +56,8 @@ p.MuiTypography-gutterBottom {
   max-width: 1000px;
   margin-top: 10px;
   padding: 20px 15px 10px 10px;
+}
+
+.city-results-card {
+  display: inline-block;
 }
