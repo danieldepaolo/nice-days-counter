@@ -51,9 +51,11 @@ class App extends React.Component {
 
   handleSubmitQuery = async () => {
     this.setState({ loading: true, reqErr: false, results: {}});
-  
+
+    const apiUrl = process.env.BACKEND_URL || "http://localhost:9000";
     const { city: { value }, year } = this.state.queryFormValues;
-    const { data: { data, error } } = await axios(`http://localhost:9000/nicedays?
+
+    const { data: { data, error } } = await axios(`${apiUrl}/nicedays?
 lat=${value.geometry.coordinates[1]}&
 lon=${value.geometry.coordinates[0]}&
 startdate=${year}-01-01&
