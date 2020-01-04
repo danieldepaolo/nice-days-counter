@@ -52,7 +52,7 @@ class App extends React.Component {
   handleSubmitQuery = async () => {
     this.setState({ loading: true, reqErr: false, results: {}});
 
-    const apiUrl = process.env.BACKEND_URL || "http://localhost:9000";
+    const apiUrl = process.env.BACKEND_URL || "https://nice-days-app-backend.herokuapp.com";
     const { city: { value }, year } = this.state.queryFormValues;
 
     const { data: { data, error } } = await axios(`${apiUrl}/nicedays?
