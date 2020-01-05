@@ -6,15 +6,16 @@ import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
 import { Button, Container } from '@material-ui/core';
 
-import { isNiceDay } from './helpers';
+import { isNiceDay, storeDataInCache, getCachedData } from './helpers';
 import NiceDayForm from './NiceDayForm';
 import QueryForm from './QueryForm';
+import Results from './Results';
 import {
   defaultNiceDayForm,
   defaultQueryForm,
   defaultMonthNiceDays
 } from './constants';
-import Results from './Results';
+
 
 class App extends React.Component {
   state = {
@@ -49,22 +50,39 @@ class App extends React.Component {
     });
   }
 
-  handleSubmitQuery = async () => {
-    this.setState({ loading: true, reqErr: false, results: {}});
-
-    const apiUrl = process.env.BACKEND_URL || "https://nice-days-app-backend.herokuapp.com";
+  getData = async () => {
     const { city: { value }, year } = this.state.queryFormValues;
+    const localData = getCachedData(value, year);
+    if (!localData) {
+      const apiUrl = process.env.BACKEND_URL || "https://nice-days-app-backend.herokuapp.com";
+      this.setState({ loading: true, reqErr: false, results: {}});
 
-    const { data: { data, error } } = await axios(`${apiUrl}/nicedays?
+      const { data: { data, error } } = await axios(`${apiUrl}/nicedays?
 lat=${value.geometry.coordinates[1]}&
 lon=${value.geometry.coordinates[0]}&
 startdate=${year}-01-01&
 enddate=${year}-12-31`);
-    
-    if (isEmpty(error)) {
-      this.compileResults(data);
-    } else {
-      this.setState({ reqErr: error, loading: false })
+
+      return { data, error, cacheHit: false };
+    } else { // cache hit
+      return { data: localData, error: null, cacheHit: true };
+    }
+  }
+
+  handleSubmitQuery = async () => {
+    try {
+      const { data, error, cacheHit } = await this.getData();
+      if (isEmpty(error)) {
+        const { city: { value }, year } = this.state.queryFormValues;
+        this.compileResults(data);
+        if (!cacheHit) {
+          storeDataInCache(value, year, data);
+        }
+      } else {
+        this.setState({ reqErr: error, loading: false })
+      }
+    } catch (err) {
+      this.setState({ reqErr: err, loading: false })
     }
   }
 
