@@ -4,7 +4,7 @@ export const isNiceDay = (dailyData, userFields) => {
     dailyData.apparentTemperatureHigh <= userFields.tempRange[1] &&
     dailyData.cloudCover <= (userFields.maxCloudCover / 8) &&
     (!dailyData.precipIntensity ||
-      dailyData.precipIntensity <= userFields.maxPrecipIntensity)
+      dailyData.precipIntensity * 24 <= userFields.maxPrecip)
   );
 };
 

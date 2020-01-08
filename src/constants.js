@@ -1,6 +1,6 @@
 export const defaultNiceDayForm = {
   tempRange: [52, 88],
-  maxPrecipIntensity: 0.005,
+  maxPrecip: 0.03,
   maxCloudCover: 6
 };
 

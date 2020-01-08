@@ -15,7 +15,7 @@ import {
   defaultQueryForm,
   defaultMonthNiceDays
 } from './constants';
-
+import appLogo from './aerial-photo-of-mountain-surrounded-by-fog-733174.jpg';
 
 class App extends React.Component {
   state = {
@@ -88,33 +88,50 @@ enddate=${year}-12-31`);
 
   render() {
     return (
-      <Container maxWidth="md">
-        <h2 className="app-heading">Nice Days Counter</h2>
-        <div className="form-area">
-          <NiceDayForm
-            fieldState={this.state.niceDayFormValues}
-            onChange={state => this.setState({ niceDayFormValues: state })}
-          />
-          <QueryForm
-            fieldState={this.state.queryFormValues}
-            onChange={state => this.setState({ queryFormValues: state })}
-          />
-          <Button
-            variant="contained"
-            color="primary"
-            className="submit-btn"
-            disabled={!this.state.queryFormValues.city || this.state.loading}
-            onClick={this.handleSubmitQuery}
-          >
-            See Results
-          </Button>
+      <div>
+        <div className="app-header-bar">
+          <Container className="header-content" maxWidth="md">
+            <div className="header-left">
+              <img src={appLogo} className="app-logo" />
+              <div className="app-title">Nice Days Counter</div>
+            </div>
+          </Container>
         </div>
-        <Results
-          data={this.state.results}
-          loading={this.state.loading}
-          error={this.state.reqErr}
-        />
-      </Container>
+        <Container maxWidth="md">
+          <div className="form-area">
+            <NiceDayForm
+              fieldState={this.state.niceDayFormValues}
+              onChange={state => this.setState({ niceDayFormValues: state })}
+            />
+            <QueryForm
+              fieldState={this.state.queryFormValues}
+              onChange={state => this.setState({ queryFormValues: state })}
+            />
+            <div className="submit-line">
+              <Button
+                variant="contained"
+                color="primary"
+                className="submit-btn"
+                disabled={!this.state.queryFormValues.city || this.state.loading}
+                onClick={this.handleSubmitQuery}
+              >
+                See Results
+              </Button>
+              <a href="https://darksky.net/poweredby/">
+                <img
+                  className="dark-sky-img"
+                  src="https://darksky.net/dev/img/attribution/poweredby-oneline.png"
+                />
+              </a>
+            </div>
+          </div>
+          <Results
+            data={this.state.results}
+            loading={this.state.loading}
+            error={this.state.reqErr}
+          />
+        </Container>
+      </div>
     );
   }
 }

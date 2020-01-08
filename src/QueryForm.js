@@ -26,7 +26,7 @@ class QueryForm extends React.Component {
   render() {
     return (
       <div className="query-form">
-        <h3>What city and year?</h3>
+        <h4>What city and year?</h4>
         <Form state={this.props.fieldState} onChange={this.props.onChange}>
           <Field
             fieldName="city"

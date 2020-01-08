@@ -10,11 +10,11 @@ const tempMarks = [
   {value: 100, label: "100F"}
 ];
 
-const precipIntensityMarks = [
-  {value: 0, label: "0"},
-  {value: 0.01, label: "0.01"},
-  {value: 0.05, label: "0.05"},
-  {value: 0.1, label: "0.1"}
+const totalPrecipMarks = [
+  {value: 0.03, label: "~None"},
+  {value: 0.1, label: "Light"},
+  {value: 0.5, label: "Moderate"},
+  {value: 1, label: "Heavy"}
 ];
 
 const cloudCoverMarks = [
@@ -33,21 +33,21 @@ class NiceDayForm extends React.Component {
   render() {
     return (
       <div>
-        <h3 className="nice-day-form-header">What is a "nice day"?</h3>
+        <h4 className="nice-day-form-header">What is a "nice day"?</h4>
         <Form
           state={this.props.fieldState}
           onChange={this.props.onChange}
         >
           <Field
             fieldName="tempRange"
-            label={'"Feels-like" Temperature Range'}
+            label={'High "Feels-like" Temperature Range'}
             marks={tempMarks}
             min={30}
             type={SliderField}
           />
           <Field
             fieldName="maxCloudCover"
-            label="Max Cloud Cover (oktas)"
+            label="Highest Allowed Cloud Cover (oktas)"
             marks={cloudCoverMarks}
             min={0}
             max={8}
@@ -55,12 +55,12 @@ class NiceDayForm extends React.Component {
             type={SliderField}
           />
           <Field
-            fieldName="maxPrecipIntensity"
-            label="Max Precipitation Intensity (inches)"
-            marks={precipIntensityMarks}
-            min={0}
-            max={0.1}
-            step={0.005}
+            fieldName="maxPrecip"
+            label="Highest Allowed Precipitation Amount (inches)"
+            marks={totalPrecipMarks}
+            min={0.03}
+            max={1}
+            step={0.1}
             type={SliderField}
           />
         </Form>
