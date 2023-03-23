@@ -54,7 +54,7 @@ class App extends React.Component {
     const { city: { value }, year } = this.state.queryFormValues;
     const localData = getCachedData(value, year);
     if (!localData) {
-      const apiUrl = process.env.BACKEND_URL || "https://nice-days-app-backend.herokuapp.com";
+      const apiUrl = process.env.REACT_APP_BACKEND_URL || "https://nice-days-app-backend.herokuapp.com";
       this.setState({ loading: true, reqErr: false, results: {}});
 
       const { data: { data, error } } = await axios(`${apiUrl}/nicedays?
