@@ -30,9 +30,9 @@ class App extends React.Component {
     const monthNiceDays = cloneDeep(defaultMonthNiceDays);
     let niceDayCount = 0;
     dayArray.forEach(day => {
-      if (isNiceDay(day.daily.data[0], this.state.niceDayFormValues)) {
+      if (isNiceDay(day, this.state.niceDayFormValues)) {
         niceDayCount++;
-        const time = moment.unix(day.daily.data[0].time);
+        const time = moment(day.day);
         monthNiceDays[time.format("MMMM")].push(day);
       }
     });
@@ -62,7 +62,6 @@ lat=${value.geometry.coordinates[1]}&
 lon=${value.geometry.coordinates[0]}&
 startdate=${year}-01-01&
 enddate=${year}-12-31`);
-
       return { data, error, cacheHit: false };
     } else { // cache hit
       return { data: localData, error: null, cacheHit: true };
@@ -74,7 +73,7 @@ enddate=${year}-12-31`);
       const { data, error, cacheHit } = await this.getData();
       if (isEmpty(error)) {
         const { city: { value }, year } = this.state.queryFormValues;
-        this.compileResults(data);
+        this.compileResults(data.daily);
         if (!cacheHit) {
           storeDataInCache(value, year, data);
         }
@@ -82,6 +81,7 @@ enddate=${year}-12-31`);
         this.setState({ reqErr: error, loading: false })
       }
     } catch (err) {
+      console.log(err);
       this.setState({ reqErr: err, loading: false })
     }
   }
@@ -117,12 +117,6 @@ enddate=${year}-12-31`);
               >
                 See Results
               </Button>
-              <a href="https://darksky.net/poweredby/">
-                <img
-                  className="dark-sky-img"
-                  src="https://darksky.net/dev/img/attribution/poweredby-oneline.png"
-                />
-              </a>
             </div>
           </div>
           <Results

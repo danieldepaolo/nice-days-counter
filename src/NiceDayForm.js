@@ -11,22 +11,10 @@ const tempMarks = [
 ];
 
 const totalPrecipMarks = [
-  {value: 0.03, label: "~None"},
+  {value: 0.009, label: "~None"},
   {value: 0.1, label: "Light"},
   {value: 0.5, label: "Moderate"},
   {value: 1, label: "Heavy"}
-];
-
-const cloudCoverMarks = [
-  {value: 0, label: "Clear"},
-  {value: 1, label: "1"},
-  {value: 2, label: "2"},
-  {value: 3, label: "3"},
-  {value: 4, label: "4"},
-  {value: 5, label: "5"},
-  {value: 6, label: "6"},
-  {value: 7, label: "7"},
-  {value: 8, label: "Overcast"},
 ];
 
 class NiceDayForm extends React.Component {
@@ -46,19 +34,10 @@ class NiceDayForm extends React.Component {
             type={SliderField}
           />
           <Field
-            fieldName="maxCloudCover"
-            label="Highest Allowed Cloud Cover (oktas)"
-            marks={cloudCoverMarks}
-            min={0}
-            max={8}
-            step={null}
-            type={SliderField}
-          />
-          <Field
             fieldName="maxPrecip"
             label="Highest Allowed Precipitation Amount (inches)"
             marks={totalPrecipMarks}
-            min={0.03}
+            min={0}
             max={1}
             step={0.1}
             type={SliderField}

@@ -51,7 +51,7 @@ class Results extends React.Component {
       : null;
 
   render = () => {
-    const { city, year, niceDayCount } = this.props.data;      
+    const { city, year, niceDayCount } = this.props.data;
     return (
       <div className="results-area">
         {this.props.loading &&
