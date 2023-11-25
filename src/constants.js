@@ -5,7 +5,7 @@ export const defaultNiceDayForm = {
 
 export const defaultQueryForm = {
   city: null,
-  year: '2018'
+  year: '2022'
 };
 
 export const maxNiceDaysInMonth = 31; // number of days in longest month
