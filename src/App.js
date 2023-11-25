@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import moment from 'moment';
+import { DateTime } from "luxon"
 import axios from 'axios';
 import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
@@ -32,8 +32,8 @@ class App extends React.Component {
     dayArray.forEach(day => {
       if (isNiceDay(day, this.state.niceDayFormValues)) {
         niceDayCount++;
-        const time = moment(day.day);
-        monthNiceDays[time.format("MMMM")].push(day);
+        const month = DateTime.fromISO(day.day).toFormat("MMMM");
+        monthNiceDays[month].push(day);
       }
     });
 
