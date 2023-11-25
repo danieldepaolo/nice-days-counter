@@ -11,7 +11,7 @@ import {
   YAxis,
   CartesianGrid
 } from 'recharts';
-import Loader from 'react-loader-spinner';
+import { Puff } from 'react-loader-spinner';
 
 import { maxNiceDaysInMonth } from './constants';
 import { getMonthLabelWithChartWidth } from './helpers';
@@ -45,18 +45,17 @@ const Results = ({ data, error, loading }) => {
 
   return (
     <div className="results-area">
-      {loading &&
-        <Loader
-          type="Puff"
-          color="#00BFFF"
-          height={100}
-          width={100}
-      />}
       {error &&
         <div className="error-text">
           Unable to retrieve data. Please try again later.
         </div>}
-      {city &&
+      {loading &&
+        <Puff
+          color="#00BFFF"
+          height={100}
+          width={100}
+      />}
+      {city && !loading &&
         <>
           <Card variant="outlined" classes={{ root: "city-results-card"}}>
             <CardContent>
