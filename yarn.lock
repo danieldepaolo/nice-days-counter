@@ -8986,13 +8986,6 @@ signal-exit@^3.0.2, signal-exit@^3.0.3:
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.7.tgz#a9a1767f8af84155114eaabd73f99273c8f59ad9"
   integrity sha512-wnD2ZE+l+SPC/uoS0vXeE9L1+0wuaMqKlfz9AMUo38JsyLSBWSFcHR1Rri62LZc12vLr1gb3jl7iwQhgwpAbGQ==
 
-simple-react-form@^2.4.1:
-  version "2.6.1"
-  resolved "https://registry.yarnpkg.com/simple-react-form/-/simple-react-form-2.6.1.tgz#619db0a69c9cbafe61a0eedef73cedc95ee42f1d"
-  integrity sha512-3Rp25Ft1mkopN7BvLYQM4QRHGJXKe2F06eNTJnq9GtVl2smXQpWHpEafc8/qkq0yfh6x2zLbc74cAx6VfiQfBg==
-  dependencies:
-    lodash "^4.17.11"
-
 sisteransi@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/sisteransi/-/sisteransi-1.0.5.tgz#134d681297756437cc05ca01370d3a7a571075ed"

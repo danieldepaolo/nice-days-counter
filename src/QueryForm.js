@@ -1,5 +1,4 @@
 import React from 'react';
-import {Form, Field} from 'simple-react-form';
 import DropdownField from './formFields/DropdownField';
 import Select, { createFilter } from 'react-select';
 import orderBy from 'lodash/orderBy';
@@ -18,7 +17,7 @@ const yearOptions = [
   { value: "2015", label: "2015" }
 ];
 
-const QueryForm = ({ fieldState, onChange }) => {
+const QueryForm = ({ fieldState, handleChange }) => {
   const getTopCities = (topN = 1000) =>
     orderBy(
       topCities.slice(0, topN),
@@ -29,11 +28,9 @@ const QueryForm = ({ fieldState, onChange }) => {
   return (
     <div className="query-form">
       <h4>What city and year?</h4>
-      <Form state={fieldState} onChange={onChange}>
-        <Field
-          fieldName="city"
+        <Select
+          name="city"
           label="City"
-          type={Select}
           placeholder="Select a city..."
           filterOption={createFilter({ ignoreAccents: false })}
           styles={{
@@ -47,14 +44,20 @@ const QueryForm = ({ fieldState, onChange }) => {
             value: record,
             label: getCityNameFromRecord(record)
           }))}
+          onChange={value => {
+            handleChange("city", value)
+          }}
+          value={fieldState.city}
         />
-        <Field
-          fieldName="year"
+        <DropdownField
+          name="year"
           label="Year"
-          type={DropdownField}
           options={yearOptions}
+          onChange={val => {
+            handleChange("year", val)
+          }}
+          value={fieldState.year}
         />
-      </Form>
     </div>
   )
 }

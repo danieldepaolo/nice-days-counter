@@ -1,32 +1,30 @@
 import React from 'react';
 import { FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
 
-class DropdownField extends React.Component {
-  handleChange = event => {
-    this.props.onChange(event.target.value);
+const DropdownField = ({ id, label, onChange, options, value }) => {
+  const handleChange = event => {
+    onChange(event.target.value);
   }
 
-  render() {
-    return (
-      <FormControl>
-        <InputLabel id={`${this.props.id}-label`}>
-          {this.props.label}
-        </InputLabel>
-        <Select
-          labelId={`${this.props.id}-label`}
-          id={this.props.id}
-          value={this.props.value}
-          onChange={this.handleChange}
-        >
-          {this.props.options.map(option => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.label}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-    );
-  }
+  return (
+    <FormControl>
+      <InputLabel id={`${id}-label`}>
+        {label}
+      </InputLabel>
+      <Select
+        labelId={`${id}-label`}
+        id={id}
+        value={value}
+        onChange={handleChange}
+      >
+        {options.map(option =>
+          <MenuItem key={option.value} value={option.value}>
+            {option.label}
+          </MenuItem>
+        )}
+      </Select>
+    </FormControl>
+  );
 }
 
 export default DropdownField;

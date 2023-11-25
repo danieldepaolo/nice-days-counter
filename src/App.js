@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import { DateTime } from "luxon"
 import axios from 'axios';
@@ -17,117 +17,119 @@ import {
 } from './constants';
 import appLogo from './aerial-photo-of-mountain-surrounded-by-fog-733174.jpg';
 
-class App extends React.Component {
-  state = {
-    niceDayFormValues: defaultNiceDayForm,
-    queryFormValues: defaultQueryForm,
-    results: {},
-    loading: false,
-    reqErr: false
-  };
+const App = () => {
+  const [niceDayFormValues, setNiceDayFormValues] = useState(defaultNiceDayForm)
+  const [queryFormValues, setQueryFormValues] = useState(defaultQueryForm)
+  const [results, setResults] = useState({})
+  const [loading, setLoading] = useState(false)
+  const [reqErr, setReqErr] = useState(false)
 
-  compileResults = dayArray => {
+  const compileResults = dayArray => {
     const monthNiceDays = cloneDeep(defaultMonthNiceDays);
     let niceDayCount = 0;
     dayArray.forEach(day => {
-      if (isNiceDay(day, this.state.niceDayFormValues)) {
+      if (isNiceDay(day, niceDayFormValues)) {
         niceDayCount++;
         const month = DateTime.fromISO(day.day).toFormat("MMMM");
         monthNiceDays[month].push(day);
       }
     });
 
-    const { city, year } = this.state.queryFormValues;
-    this.setState({
-      results: {
-        city,
-        year,
-        monthNiceDays,
-        niceDayCount
-      },
-      loading: false,
-      reqErr: false
+    setResults({
+      ...queryFormValues,
+      monthNiceDays,
+      niceDayCount
     });
+    setLoading(false);
+    setReqErr(false);
   }
 
-  getData = async () => {
-    const { city: { value }, year } = this.state.queryFormValues;
+  const updateFormState = setFunc => (field, value) => (
+    setFunc(prev => ({
+      ...prev,
+      [field]: value
+    }))
+  )
+
+  const getData = async () => {
+    const { city: { value }, year } = queryFormValues;
     const localData = getCachedData(value, year);
     if (!localData) {
       const apiUrl = process.env.REACT_APP_BACKEND_URL || "https://nice-days-app-backend.herokuapp.com";
-      this.setState({ loading: true, reqErr: false, results: {}});
+      setLoading(true)
+      setReqErr(false)
 
       const { data: { data, error } } = await axios(`${apiUrl}/nicedays?
 lat=${value.geometry.coordinates[1]}&
 lon=${value.geometry.coordinates[0]}&
 startdate=${year}-01-01&
 enddate=${year}-12-31`);
+
       return { data, error, cacheHit: false };
     } else { // cache hit
       return { data: localData, error: null, cacheHit: true };
     }
   }
 
-  handleSubmitQuery = async () => {
+  const handleSubmitQuery = async () => {
     try {
-      const { data, error, cacheHit } = await this.getData();
+      const { data, error, cacheHit } = await getData();
       if (isEmpty(error)) {
-        const { city: { value }, year } = this.state.queryFormValues;
-        this.compileResults(data.daily);
+        const { city: { value }, year } = queryFormValues;
+        compileResults(data.daily);
         if (!cacheHit) {
           storeDataInCache(value, year, data);
         }
       } else {
-        this.setState({ reqErr: error, loading: false })
+        setReqErr(error)
       }
     } catch (err) {
-      console.log(err);
-      this.setState({ reqErr: err, loading: false })
+      setReqErr(err)
+    } finally {
+      setLoading(false)
     }
   }
 
-  render() {
-    return (
-      <div>
-        <div className="app-header-bar">
-          <Container className="header-content" maxWidth="md">
-            <div className="header-left">
-              <img src={appLogo} className="app-logo" alt="Nice Days Counter" />
-              <div className="app-title">Nice Days Counter</div>
-            </div>
-          </Container>
-        </div>
-        <Container maxWidth="md">
-          <div className="form-area">
-            <NiceDayForm
-              fieldState={this.state.niceDayFormValues}
-              onChange={state => this.setState({ niceDayFormValues: state })}
-            />
-            <QueryForm
-              fieldState={this.state.queryFormValues}
-              onChange={state => this.setState({ queryFormValues: state })}
-            />
-            <div className="submit-line">
-              <Button
-                variant="contained"
-                color="primary"
-                className="submit-btn"
-                disabled={!this.state.queryFormValues.city || this.state.loading}
-                onClick={this.handleSubmitQuery}
-              >
-                See Results
-              </Button>
-            </div>
+  return (
+    <div>
+      <div className="app-header-bar">
+        <Container className="header-content" maxWidth="md">
+          <div className="header-left">
+            <img src={appLogo} className="app-logo" alt="Nice Days Counter" />
+            <div className="app-title">Nice Days Counter</div>
           </div>
-          <Results
-            data={this.state.results}
-            loading={this.state.loading}
-            error={this.state.reqErr}
-          />
         </Container>
       </div>
-    );
-  }
+      <Container maxWidth="md">
+        <div className="form-area">
+          <NiceDayForm
+            fieldState={niceDayFormValues}
+            handleChange={updateFormState(setNiceDayFormValues)}
+          />
+          <QueryForm
+            fieldState={queryFormValues}
+            handleChange={updateFormState(setQueryFormValues)}
+          />
+          <div className="submit-line">
+            <Button
+              variant="contained"
+              color="primary"
+              className="submit-btn"
+              disabled={!queryFormValues.city || loading}
+              onClick={handleSubmitQuery}
+            >
+              See Results
+            </Button>
+          </div>
+        </div>
+        <Results
+          data={results}
+          loading={loading}
+          error={reqErr}
+        />
+      </Container>
+    </div>
+  );
 }
 
 export default App;

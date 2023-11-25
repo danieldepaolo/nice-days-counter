@@ -1,5 +1,4 @@
 import React from 'react';
-import {Form, Field} from 'simple-react-form';
 import SliderField from './formFields/SliderField';
 
 const tempMarks = [
@@ -17,30 +16,27 @@ const totalPrecipMarks = [
   {value: 1, label: "Heavy"}
 ];
 
-const NiceDayForm = ({ fieldState, onChange }) =>
+const NiceDayForm = ({ fieldState, handleChange }) =>
   <div>
     <h4 className="nice-day-form-header">What is a "nice day"?</h4>
-    <Form
-      state={fieldState}
-      onChange={onChange}
-    >
-      <Field
-        fieldName="tempRange"
-        label={'High "Feels-like" Temperature Range'}
+      <SliderField
+        name="tempRange"
+        label='High "Feels-like" Temperature Range'
         marks={tempMarks}
         min={30}
-        type={SliderField}
+        onChange={value => handleChange("tempRange", value)}
+        value={fieldState.tempRange}
       />
-      <Field
-        fieldName="maxPrecip"
+      <SliderField
+        name="maxPrecip"
         label="Highest Allowed Precipitation Amount (inches)"
         marks={totalPrecipMarks}
         min={0.01}
         max={1}
         step={0.1}
-        type={SliderField}
+        onChange={value => handleChange("maxPrecip", value)}
+        value={fieldState.maxPrecip}
       />
-    </Form>
   </div>
 
 export default NiceDayForm

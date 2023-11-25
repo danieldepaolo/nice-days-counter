@@ -15,8 +15,7 @@
     "react-loader-spinner": "^3.1.5",
     "react-scripts": "5.0.1",
     "react-select": "4.3.1",
-    "recharts": "^2.10.1",
-    "simple-react-form": "^2.4.1"
+    "recharts": "^2.10.1"
   },
   "scripts": {
     "start": "react-scripts start",
