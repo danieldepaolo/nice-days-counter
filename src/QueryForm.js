@@ -18,49 +18,45 @@ const yearOptions = [
   { value: "2015", label: "2015" }
 ];
 
-class QueryForm extends React.Component {
-  getTopCities = (topN = 1000) =>
+const QueryForm = ({ fieldState, onChange }) => {
+  const getTopCities = (topN = 1000) =>
     orderBy(
       topCities.slice(0, topN),
       record => Number(record.fields.population),
       'desc'
     );
 
-  render() {
-    return (
-      <div className="query-form">
-        <h4>What city and year?</h4>
-        <Form state={this.props.fieldState} onChange={this.props.onChange}>
-          <Field
-            fieldName="city"
-            label="City"
-            type={Select}
-            placeholder="Select a city..."
-            filterOption={createFilter({ignoreAccents: false})}
-            styles={{
-              container: provided => ({
-                ...provided,
-                width: 265,
-                marginBottom: 15
-              })
-            }}
-            options={this.getTopCities().map(record => {
-              return {
-                value: record,
-                label: getCityNameFromRecord(record)
-              };
-            })}
-          />
-          <Field
-            fieldName="year"
-            label="Year"
-            type={DropdownField}
-            options={yearOptions}
-          />
-        </Form>
-      </div>
-    )
-  }
+  return (
+    <div className="query-form">
+      <h4>What city and year?</h4>
+      <Form state={fieldState} onChange={onChange}>
+        <Field
+          fieldName="city"
+          label="City"
+          type={Select}
+          placeholder="Select a city..."
+          filterOption={createFilter({ ignoreAccents: false })}
+          styles={{
+            container: provided => ({
+              ...provided,
+              width: 265,
+              marginBottom: 15
+            })
+          }}
+          options={getTopCities().map(record => ({
+            value: record,
+            label: getCityNameFromRecord(record)
+          }))}
+        />
+        <Field
+          fieldName="year"
+          label="Year"
+          type={DropdownField}
+          options={yearOptions}
+        />
+      </Form>
+    </div>
+  )
 }
 
 export default QueryForm
