@@ -92,7 +92,7 @@ enddate=${year}-12-31`);
         <div className="app-header-bar">
           <Container className="header-content" maxWidth="md">
             <div className="header-left">
-              <img src={appLogo} className="app-logo" />
+              <img src={appLogo} className="app-logo" alt="Nice Days Counter" />
               <div className="app-title">Nice Days Counter</div>
             </div>
           </Container>

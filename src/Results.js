@@ -33,7 +33,7 @@ const XTick = ({
 }) => {
   return (
   <text {...rest} dy={12}>
-    {getMonthLabelWithChartWidth(value, viewBox.width)}
+    {getMonthLabelWithChartWidth(value, viewBox?.width)}
   </text>)
 };
 
