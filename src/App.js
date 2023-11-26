@@ -4,7 +4,8 @@ import { DateTime } from "luxon"
 import axios from 'axios';
 import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
-import { Button, Container } from '@material-ui/core';
+import appTheme from "./Theme"
+import { Box, Button, Container, ThemeProvider, Typography } from '@material-ui/core';
 
 import { isNiceDay, storeDataInCache, getCachedData } from './helpers';
 import NiceDayForm from './NiceDayForm';
@@ -92,20 +93,22 @@ enddate=${year}-12-31`);
 
   return (
     <div>
-      <div className="app-header-bar">
-        <Container className="header-content" maxWidth="md">
-          <div className="header-left">
-            <img src={appLogo} className="app-logo" alt="Nice Days Counter" />
-            <div className="app-title">Nice Days Counter</div>
-          </div>
-        </Container>
-      </div>
-      <Container maxWidth="md">
-        <div className="form-area">
-          <NiceDayForm
-            fieldState={niceDayFormValues}
-            handleChange={updateFormState(setNiceDayFormValues)}
-          />
+      <ThemeProvider theme={appTheme}>
+        <div className="app-header-bar">
+          <Container className="header-content" maxWidth="md">
+            <div className="header-left">
+              <img src={appLogo} className="app-logo" alt="Nice Days Counter" />
+              <Typography variant="h4" className="app-title">Nice Days Counter</Typography>
+            </div>
+          </Container>
+        </div>
+        <Container maxWidth="md">
+          <Box mb={2}>
+            <NiceDayForm
+              fieldState={niceDayFormValues}
+              handleChange={updateFormState(setNiceDayFormValues)}
+            />
+          </Box>
           <QueryForm
             fieldState={queryFormValues}
             handleChange={updateFormState(setQueryFormValues)}
@@ -121,13 +124,13 @@ enddate=${year}-12-31`);
               See Results
             </Button>
           </div>
-        </div>
-        <Results
-          data={results}
-          loading={loading}
-          error={reqErr}
-        />
-      </Container>
+          <Results
+            data={results}
+            loading={loading}
+            error={reqErr}
+          />
+        </Container>
+      </ThemeProvider>
     </div>
   );
 }

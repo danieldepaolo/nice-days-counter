@@ -6,6 +6,7 @@ body {
 .app-header-bar {
   background: #dce6fd;
   padding: 0.6em 0;
+  margin-bottom: 24px;
 }
 
 .header-content {
@@ -31,8 +32,8 @@ body {
 }
 
 .app-logo {
-  height: 30px;
-  margin-right: 10px;
+  height: 45px;
+  margin-right: 16px;
   border-radius: 5px;
 }
 
@@ -46,14 +47,17 @@ body {
   align-items: center;
 }
 
-.nice-day-form-header {
-  margin-bottom: 0;
-}
-
 .slider-input {
   width: 82%;
   max-width: 700px;
   padding: 20px 15px 3px 15px;
+}
+
+.query-form {
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .query-form .MuiFormControl-root {
@@ -84,7 +88,6 @@ p.MuiTypography-gutterBottom {
 
 .bar-chart-wrapper {
   width: 70%;
-  height: 280px;
   min-width: 330px;
   max-width: 1000px;
   margin-top: 10px;

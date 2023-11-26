@@ -21,7 +21,8 @@ import {
   Card,
   CardActions,
   CardContent,
-  Typography
+  Typography,
+  Box
 } from '@material-ui/core';
 
 const XTick = ({ payload: { value }, width, ...rest }) => 
@@ -65,14 +66,15 @@ const Results = ({ data, error, loading }) => {
               <Typography
                 color="textSecondary"
                 variant="subtitle2"
-                style={{ marginBottom: 15 }}
               >
                 {`Population ${
                   Number(city.value.fields.population).toLocaleString()}`}
               </Typography>
-              <Typography>
-                {niceDayCount} nice days in {year}
-              </Typography>
+              <Box mt={2}>
+                <Typography variant="body1">
+                  {niceDayCount} nice days in {year}
+                </Typography>
+              </Box>
             </CardContent>
             <CardActions>
               <a
@@ -88,7 +90,7 @@ const Results = ({ data, error, loading }) => {
             </CardActions>
           </Card>
           <Paper elevation={1} className="bar-chart-wrapper">
-            <ResponsiveContainer>
+            <ResponsiveContainer minHeight={280}>
               <BarChart data={collectChartData()}>
                 <CartesianGrid />
                 <XAxis

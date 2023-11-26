@@ -1,5 +1,6 @@
 import React from 'react';
 import SliderField from './formFields/SliderField';
+import { Typography } from '@material-ui/core';
 
 const tempMarks = [
   {value: 30, label: "30F"},
@@ -25,7 +26,7 @@ const sunshineDurationMarks = [
 
 const NiceDayForm = ({ fieldState, handleChange }) =>
   <div>
-    <h4 className="nice-day-form-header">What is a "nice day"?</h4>
+    <Typography variant="h5">Define "Nice Day"</Typography>
       <SliderField
         name="tempRange"
         label='High "Feels-like" Temperature Range'

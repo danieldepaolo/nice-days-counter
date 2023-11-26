@@ -5,6 +5,7 @@ import orderBy from 'lodash/orderBy';
 import topCities from './1000-largest-us-cities-by-population-with-geographic-coordinates';
 
 import { getCityNameFromRecord } from './helpers';
+import { Typography } from '@material-ui/core';
 
 const yearOptions = [
   { value: "2022", label: "2022" },
@@ -26,8 +27,9 @@ const QueryForm = ({ fieldState, handleChange }) => {
     );
 
   return (
-    <div className="query-form">
-      <h4>What city and year?</h4>
+    <>
+      <Typography variant="h5">City and Year</Typography>
+      <div className="query-form">
         <Select
           name="city"
           label="City"
@@ -37,7 +39,11 @@ const QueryForm = ({ fieldState, handleChange }) => {
             container: provided => ({
               ...provided,
               width: 265,
-              marginBottom: 15
+              height: 56
+            }),
+            control: provided => ({
+              ...provided,
+              height: '100%'
             })
           }}
           options={getTopCities().map(record => ({
@@ -58,7 +64,8 @@ const QueryForm = ({ fieldState, handleChange }) => {
           }}
           value={fieldState.year}
         />
-    </div>
+      </div>
+    </>
   )
 }
 

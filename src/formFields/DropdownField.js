@@ -7,12 +7,13 @@ const DropdownField = ({ id, label, onChange, options, value }) => {
   }
 
   return (
-    <FormControl>
+    <FormControl variant='outlined'>
       <InputLabel id={`${id}-label`}>
         {label}
       </InputLabel>
       <Select
         labelId={`${id}-label`}
+        label={label}
         id={id}
         value={value}
         onChange={handleChange}
