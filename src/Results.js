@@ -23,7 +23,7 @@ import {
   CardContent,
   Typography,
   Box
-} from '@material-ui/core';
+} from '@mui/material';
 
 const XTick = ({ payload: { value }, width, ...rest }) => 
   <text {...rest} dy={12}>

@@ -1,4 +1,4 @@
-import { Slider, Typography } from '@material-ui/core';
+import { Slider, Typography } from '@mui/material';
 
 const SliderField = ({
   label,

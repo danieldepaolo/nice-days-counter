@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
+import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 
 const DropdownField = ({ id, label, onChange, options, value }) => {
   const handleChange = event => {

@@ -1,6 +1,6 @@
 import React from 'react';
 import SliderField from './formFields/SliderField';
-import { Typography } from '@material-ui/core';
+import { Typography } from '@mui/material';
 
 const tempMarks = [
   {value: 30, label: "30F"},

@@ -5,7 +5,7 @@ import orderBy from 'lodash/orderBy';
 import topCities from './1000-largest-us-cities-by-population-with-geographic-coordinates';
 
 import { getCityNameFromRecord } from './helpers';
-import { Typography } from '@material-ui/core';
+import { Typography } from '@mui/material';
 
 const yearOptions = [
   { value: "2022", label: "2022" },

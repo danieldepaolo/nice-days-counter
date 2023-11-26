@@ -5,7 +5,7 @@ import axios from 'axios';
 import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
 import appTheme from "./Theme"
-import { Box, Button, Container, ThemeProvider, Typography } from '@material-ui/core';
+import { Box, Button, Container, ThemeProvider, StyledEngineProvider, Typography } from '@mui/material';
 
 import { isNiceDay, storeDataInCache, getCachedData } from './helpers';
 import NiceDayForm from './NiceDayForm';
@@ -93,44 +93,46 @@ enddate=${year}-12-31`);
 
   return (
     <div>
-      <ThemeProvider theme={appTheme}>
-        <div className="app-header-bar">
-          <Container className="header-content" maxWidth="md">
-            <div className="header-left">
-              <img src={appLogo} className="app-logo" alt="Nice Days Counter" />
-              <Typography variant="h4" className="app-title">Nice Days Counter</Typography>
-            </div>
-          </Container>
-        </div>
-        <Container maxWidth="md">
-          <Box mb={2}>
-            <NiceDayForm
-              fieldState={niceDayFormValues}
-              handleChange={updateFormState(setNiceDayFormValues)}
-            />
-          </Box>
-          <QueryForm
-            fieldState={queryFormValues}
-            handleChange={updateFormState(setQueryFormValues)}
-          />
-          <div className="submit-line">
-            <Button
-              variant="contained"
-              color="primary"
-              className="submit-btn"
-              disabled={!queryFormValues.city || loading}
-              onClick={handleSubmitQuery}
-            >
-              See Results
-            </Button>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={appTheme}>
+          <div className="app-header-bar">
+            <Container className="header-content" maxWidth="md">
+              <div className="header-left">
+                <img src={appLogo} className="app-logo" alt="Nice Days Counter" />
+                <Typography variant="h4" className="app-title">Nice Days Counter</Typography>
+              </div>
+            </Container>
           </div>
-          <Results
-            data={results}
-            loading={loading}
-            error={reqErr}
-          />
-        </Container>
-      </ThemeProvider>
+          <Container maxWidth="md">
+            <Box mb={2}>
+              <NiceDayForm
+                fieldState={niceDayFormValues}
+                handleChange={updateFormState(setNiceDayFormValues)}
+              />
+            </Box>
+            <QueryForm
+              fieldState={queryFormValues}
+              handleChange={updateFormState(setQueryFormValues)}
+            />
+            <div className="submit-line">
+              <Button
+                variant="contained"
+                color="primary"
+                className="submit-btn"
+                disabled={!queryFormValues.city || loading}
+                onClick={handleSubmitQuery}
+              >
+                See Results
+              </Button>
+            </div>
+            <Results
+              data={results}
+              loading={loading}
+              error={reqErr}
+            />
+          </Container>
+        </ThemeProvider>
+      </StyledEngineProvider>
     </div>
   );
 }
