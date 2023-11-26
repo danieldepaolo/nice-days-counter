@@ -2,7 +2,8 @@ export const isNiceDay = (dailyData, userFields) => {
   const isNice = (
     dailyData.apparent_temperature_max >= userFields.tempRange[0] &&
     dailyData.apparent_temperature_max <= userFields.tempRange[1] &&
-    (dailyData.rain_sum <= userFields.maxPrecip)
+    dailyData.rain_sum <= userFields.maxPrecip &&
+    dailyData.sunshine_duration >= userFields.minSunshineDuration * 60 * 60 // sunshine_duration is seconds, minSunshineDuration is hours
   );
   return isNice
 };

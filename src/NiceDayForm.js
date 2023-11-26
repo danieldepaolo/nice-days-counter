@@ -10,11 +10,18 @@ const tempMarks = [
 ];
 
 const totalPrecipMarks = [
-  {value: 0.01, label: "Very Light"},
+  {value: 0.01, label: "Very light"},
   {value: 0.1, label: "Light"},
   {value: 0.5, label: "Moderate"},
   {value: 1, label: "Heavy"}
 ];
+
+const sunshineDurationMarks = [
+  {value: 0, label: "No sun"},
+  {value: 2, label: "A taste of sun"},
+  {value: 4, label: "Moderate sun"},
+  {value: 8, label: "Lots of sun"}
+]
 
 const NiceDayForm = ({ fieldState, handleChange }) =>
   <div>
@@ -36,6 +43,15 @@ const NiceDayForm = ({ fieldState, handleChange }) =>
         step={0.1}
         onChange={value => handleChange("maxPrecip", value)}
         value={fieldState.maxPrecip}
+      />
+      <SliderField
+        name="minSunshineDuration"
+        label='Minimum sunshine duration (hours)'
+        marks={sunshineDurationMarks}
+        min={0}
+        max={8}
+        onChange={value => handleChange("minSunshineDuration", value)}
+        value={fieldState.minSunshineDuration}
       />
   </div>
 

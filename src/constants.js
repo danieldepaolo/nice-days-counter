@@ -1,6 +1,7 @@
 export const defaultNiceDayForm = {
-  tempRange: [52, 88],
-  maxPrecip: 0.01
+  tempRange: [55, 85],
+  maxPrecip: 0.01,
+  minSunshineDuration: 2
 };
 
 export const defaultQueryForm = {
