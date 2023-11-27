@@ -6,6 +6,7 @@ export const defaultNiceDayForm = {
 
 export const defaultQueryForm = {
   city: null,
+  compareCity: null,
   year: '2022'
 };
 
@@ -25,3 +26,5 @@ export const defaultMonthNiceDays = {
   "November": [],
   "December": [],
 };
+
+export const wikiUrl = 'https://en.wikipedia.org/wiki/'

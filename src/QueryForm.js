@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import DropdownField from './formFields/DropdownField';
 import Select, { createFilter } from 'react-select';
 import orderBy from 'lodash/orderBy';
@@ -19,12 +19,16 @@ const yearOptions = [
 ];
 
 const QueryForm = ({ fieldState, handleChange }) => {
-  const getTopCities = (topN = 1000) =>
+  const getCityOptions = useCallback((options = { disabledOptions: [], topN: 1000 }) =>
     orderBy(
-      topCities.slice(0, topN),
+      topCities.slice(0, options.topN),
       record => Number(record.fields.population),
       'desc'
-    );
+    ).map(record => ({
+      value: record,
+      label: getCityNameFromRecord(record),
+      isDisabled: options.disabledOptions.includes(record)
+    })), [])
 
   return (
     <>
@@ -46,14 +50,33 @@ const QueryForm = ({ fieldState, handleChange }) => {
               height: '100%'
             })
           }}
-          options={getTopCities().map(record => ({
-            value: record,
-            label: getCityNameFromRecord(record)
-          }))}
+          options={getCityOptions({ disabledOptions: [fieldState.compareCity], topN: 1000 })}
           onChange={value => {
             handleChange("city", value)
           }}
           value={fieldState.city}
+        />
+        <Select
+          name="compareCity"
+          label="Compare city"
+          placeholder="Select a compare city..."
+          filterOption={createFilter({ ignoreAccents: false })}
+          styles={{
+            container: provided => ({
+              ...provided,
+              width: 265,
+              height: 56
+            }),
+            control: provided => ({
+              ...provided,
+              height: '100%'
+            })
+          }}
+          options={getCityOptions({ disabledOptions: [fieldState.city], topN: 1000 })}
+          onChange={value => {
+            handleChange("compareCity", value)
+          }}
+          value={fieldState.compareCity}
         />
         <DropdownField
           name="year"

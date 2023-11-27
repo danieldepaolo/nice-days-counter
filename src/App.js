@@ -19,13 +19,15 @@ import {
 import appLogo from './aerial-photo-of-mountain-surrounded-by-fog-733174.jpg';
 
 const App = () => {
-  const [niceDayFormValues, setNiceDayFormValues] = useState(defaultNiceDayForm)
-  const [queryFormValues, setQueryFormValues] = useState(defaultQueryForm)
-  const [results, setResults] = useState({})
-  const [loading, setLoading] = useState(false)
-  const [reqErr, setReqErr] = useState(false)
+  const [niceDayFormValues, setNiceDayFormValues] = useState(defaultNiceDayForm);
+  const [queryFormValues, setQueryFormValues] = useState(defaultQueryForm);
+  const [results, setResults] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [reqErr, setReqErr] = useState(false);
 
-  const compileResults = dayArray => {
+  console.log(results, reqErr)
+
+  const compileResultsForCity = (city, dayArray) => {
     const monthNiceDays = cloneDeep(defaultMonthNiceDays);
     let niceDayCount = 0;
     dayArray.forEach(day => {
@@ -36,13 +38,12 @@ const App = () => {
       }
     });
 
-    setResults({
-      ...queryFormValues,
+    return {
+      city,
+      year: queryFormValues.year,
       monthNiceDays,
       niceDayCount
-    });
-    setLoading(false);
-    setReqErr(false);
+    };
   }
 
   const updateFormState = setFunc => (field, value) => (
@@ -52,17 +53,17 @@ const App = () => {
     }))
   )
 
-  const getData = async () => {
-    const { city: { value }, year } = queryFormValues;
-    const localData = getCachedData(value, year);
+  const getDataForCity = async (city) => {
+    const { year } = queryFormValues;
+    const localData = getCachedData(city, year);
     if (!localData) {
       const apiUrl = process.env.REACT_APP_BACKEND_URL || "https://nice-days-app-backend.herokuapp.com";
       setLoading(true)
       setReqErr(false)
 
       const { data: { data, error } } = await axios(`${apiUrl}/nicedays?
-lat=${value.geometry.coordinates[1]}&
-lon=${value.geometry.coordinates[0]}&
+lat=${city.geometry.coordinates[1]}&
+lon=${city.geometry.coordinates[0]}&
 startdate=${year}-01-01&
 enddate=${year}-12-31`);
 
@@ -73,13 +74,34 @@ enddate=${year}-12-31`);
   }
 
   const handleSubmitQuery = async () => {
+    if (!queryFormValues.city) return
+
     try {
-      const { data, error, cacheHit } = await getData();
-      if (isEmpty(error)) {
-        const { city: { value }, year } = queryFormValues;
-        compileResults(data.daily);
-        if (!cacheHit) {
-          storeDataInCache(value, year, data);
+      const {
+        city: { value: firstCity },
+        compareCity: { value: compareCity },
+        year
+      } = queryFormValues;
+
+      const firstCityData = await getDataForCity(firstCity);
+      const compareCityData = compareCity ? await getDataForCity(compareCity) : null;
+      const error = firstCityData.data.error || compareCityData?.data?.error
+      console.log(firstCityData)
+
+      if (!error || isEmpty(error)) {
+        const results = {
+          firstCity: compileResultsForCity(firstCity, firstCityData.data.daily),
+          compareCity: compareCityData ? compileResultsForCity(compareCity, compareCityData.data.daily) : {}
+        };
+        console.log(results)
+
+        setResults(results)
+
+        if (!firstCityData.cacheHit) {
+          storeDataInCache(firstCity, year, firstCityData.data);
+        }
+        if (!compareCityData.cacheHit) {
+          storeDataInCache(compareCity, year, compareCityData.data);
         }
       } else {
         setReqErr(error)
@@ -104,7 +126,7 @@ enddate=${year}-12-31`);
             </Container>
           </div>
           <Container maxWidth="md">
-            <Box mb={2}>
+            <Box mb={3}>
               <NiceDayForm
                 fieldState={niceDayFormValues}
                 handleChange={updateFormState(setNiceDayFormValues)}
@@ -125,11 +147,13 @@ enddate=${year}-12-31`);
                 See Results
               </Button>
             </div>
-            <Results
-              data={results}
-              loading={loading}
-              error={reqErr}
-            />
+            {(results || reqErr) && (
+              <Results
+                data={results}
+                loading={loading}
+                error={reqErr}
+              />
+            )}
           </Container>
         </ThemeProvider>
       </StyledEngineProvider>

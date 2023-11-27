@@ -1,4 +1,4 @@
-import React from 'react';
+import { useMemo } from 'react';
 import map from 'lodash/map';
 import startCase from 'lodash/startCase';
 import {
@@ -11,19 +11,16 @@ import {
   YAxis,
   CartesianGrid
 } from 'recharts';
-import { Puff } from 'react-loader-spinner';
-
-import { maxNiceDaysInMonth } from './constants';
-import { getMonthLabelWithChartWidth } from './helpers';
 import {
-  Button,
   Paper,
-  Card,
-  CardActions,
-  CardContent,
   Typography,
   Box
 } from '@mui/material';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import { Puff } from 'react-loader-spinner';
+
+import { maxNiceDaysInMonth, wikiUrl } from './constants';
+import { getMonthLabelWithChartWidth, getCityNameFromRecord } from './helpers';
 
 const XTick = ({ payload: { value }, width, ...rest }) => 
   <text {...rest} dy={12}>
@@ -31,18 +28,19 @@ const XTick = ({ payload: { value }, width, ...rest }) =>
   </text>
 
 const Results = ({ data, error, loading }) => {
-  const collectChartData = () =>
-    map(data.monthNiceDays, (days, month) => ({
+  const { firstCity, compareCity } = data;
+
+  const chartData = useMemo(() =>
+    map(firstCity.monthNiceDays, (days, month) => ({
       month,
-      niceDays: days.length
-    }));
+      niceDays: days.length,
+      niceDaysCompare: compareCity.monthNiceDays[month].length
+    })), [firstCity, compareCity])
 
-  const { city, year, niceDayCount } = data;
+  const getWikiUrl = label => label ? `${wikiUrl}${label.replace(' ', '_')}` : null
 
-  const cityUrl = city
-      ? `https://en.wikipedia.org/wiki/${
-            city.label.replace(' ', '_')}`
-      : null;
+  const firstCityLabel = getCityNameFromRecord(firstCity.city)
+  const compareCityLabel = getCityNameFromRecord(compareCity.city)
 
   return (
     <div className="results-area">
@@ -56,56 +54,52 @@ const Results = ({ data, error, loading }) => {
           height={100}
           width={100}
       />}
-      {city && !loading &&
-        <>
-          <Card variant="outlined" classes={{ root: "city-results-card"}}>
-            <CardContent>
+      {firstCity && !loading &&
+        <Paper elevation={1} className="bar-chart-wrapper">
+          <Box display="flex" gap={4} mb={3} ml={2}>
+            <div>
               <Typography variant="h6">
-                {city.label}
+                {firstCityLabel}{' '}
+                <a
+                  href={getWikiUrl(firstCityLabel)}
+                  className="better-link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <InfoOutlinedIcon fontSize='small' />
+                </a>
               </Typography>
               <Typography
                 color="textSecondary"
                 variant="subtitle2"
               >
                 {`Population ${
-                  Number(city.value.fields.population).toLocaleString()}`}
+                  Number(firstCity.city.fields.population).toLocaleString()}`}
               </Typography>
-              <Box mt={2}>
-                <Typography variant="body1">
-                  {niceDayCount} nice days in {year}
-                </Typography>
-              </Box>
-            </CardContent>
-            <CardActions>
-              <a
-                href={cityUrl}
-                className="better-link"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Button size="small">
-                  Learn More
-                </Button> 
-              </a>
-            </CardActions>
-          </Card>
-          <Paper elevation={1} className="bar-chart-wrapper">
-            <ResponsiveContainer minHeight={280}>
-              <BarChart data={collectChartData()}>
-                <CartesianGrid />
-                <XAxis
-                  dataKey="month"
-                  tick={<XTick />}
-                  minTickGap={-50}
-                />
-                <YAxis domain={[0, maxNiceDaysInMonth]} width={30} />
-                <Tooltip formatter={(value, name) => [value, startCase(name)]} />
-                <Legend formatter={startCase} />
-                <Bar dataKey="niceDays" fill="#8884d8" />
-              </BarChart>
-            </ResponsiveContainer>
-          </Paper>
-        </>}
+            </div>
+            <Box mt={2}>
+              <Typography variant="body1">
+                {firstCity.niceDayCount} nice days in {firstCity.year}
+              </Typography>
+            </Box>
+          </Box>
+          <ResponsiveContainer minHeight={280} maxHeight={360}>
+            <BarChart data={chartData} margin={{ left: 20, right: 15, top: 10, bottom: 10 }}>
+              <CartesianGrid />
+              <XAxis
+                dataKey="month"
+                tick={<XTick />}
+                minTickGap={-50}
+              />
+              <YAxis domain={[0, maxNiceDaysInMonth]} width={30} label={{ value: 'Nice Days', angle: -90, position: 'left', offset: 10 }} />
+              <Tooltip formatter={(value, name) => [value, startCase(name === "niceDays" ? firstCityLabel : compareCityLabel)]} />
+              <Legend formatter={(value => value === "niceDays" ? firstCityLabel : compareCityLabel)} height={24} />
+              <Bar dataKey="niceDays" fill="#334bc4" />
+              <Bar dataKey="niceDaysCompare" fill="#129614" />
+            </BarChart>
+          </ResponsiveContainer>
+        </Paper>
+      }
     </div>
   );
 }

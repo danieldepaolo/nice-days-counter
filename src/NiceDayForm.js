@@ -11,17 +11,17 @@ const tempMarks = [
 ];
 
 const totalPrecipMarks = [
-  {value: 0.01, label: "Very light"},
-  {value: 0.1, label: "Light"},
-  {value: 0.5, label: "Moderate"},
-  {value: 1, label: "Heavy"}
+  {value: 0.01, label: "~None"},
+  {value: 0.2, label: "Light"},
+  {value: 0.4, label: "Moderate"},
+  {value: 0.8, label: "Heavy"}
 ];
 
 const sunshineDurationMarks = [
   {value: 0, label: "No sun"},
-  {value: 2, label: "A taste of sun"},
-  {value: 4, label: "Moderate sun"},
-  {value: 8, label: "Lots of sun"}
+  {value: 2, label: "A taste"},
+  {value: 4, label: "Moderate"},
+  {value: 8, label: "All day"}
 ]
 
 const NiceDayForm = ({ fieldState, handleChange }) =>
@@ -37,7 +37,7 @@ const NiceDayForm = ({ fieldState, handleChange }) =>
       />
       <SliderField
         name="maxPrecip"
-        label="Highest Allowed Precipitation Amount (inches)"
+        label="Highest Allowed Rain Total (inches)"
         marks={totalPrecipMarks}
         min={0.01}
         max={1}
@@ -47,7 +47,7 @@ const NiceDayForm = ({ fieldState, handleChange }) =>
       />
       <SliderField
         name="minSunshineDuration"
-        label='Minimum sunshine duration (hours)'
+        label='Minimum Sunshine Duration (hours)'
         marks={sunshineDurationMarks}
         min={0}
         max={8}
