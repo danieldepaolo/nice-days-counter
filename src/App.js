@@ -25,8 +25,6 @@ const App = () => {
   const [loading, setLoading] = useState(false);
   const [reqErr, setReqErr] = useState(false);
 
-  console.log(results, reqErr)
-
   const compileResultsForCity = (city, dayArray) => {
     const monthNiceDays = cloneDeep(defaultMonthNiceDays);
     let niceDayCount = 0;
@@ -56,10 +54,10 @@ const App = () => {
   const getDataForCity = async (city) => {
     const { year } = queryFormValues;
     const localData = getCachedData(city, year);
+    setReqErr(false)
     if (!localData) {
       const apiUrl = process.env.REACT_APP_BACKEND_URL || "https://nice-days-app-backend.herokuapp.com";
       setLoading(true)
-      setReqErr(false)
 
       const { data: { data, error } } = await axios(`${apiUrl}/nicedays?
 lat=${city.geometry.coordinates[1]}&
@@ -79,28 +77,26 @@ enddate=${year}-12-31`);
     try {
       const {
         city: { value: firstCity },
-        compareCity: { value: compareCity },
+        compareCity: { value: compareCity } = {},
         year
       } = queryFormValues;
 
       const firstCityData = await getDataForCity(firstCity);
       const compareCityData = compareCity ? await getDataForCity(compareCity) : null;
       const error = firstCityData.data.error || compareCityData?.data?.error
-      console.log(firstCityData)
 
-      if (!error || isEmpty(error)) {
+      if (isEmpty(error)) {
         const results = {
           firstCity: compileResultsForCity(firstCity, firstCityData.data.daily),
           compareCity: compareCityData ? compileResultsForCity(compareCity, compareCityData.data.daily) : {}
         };
-        console.log(results)
 
         setResults(results)
 
         if (!firstCityData.cacheHit) {
           storeDataInCache(firstCity, year, firstCityData.data);
         }
-        if (!compareCityData.cacheHit) {
+        if (compareCityData && !compareCityData.cacheHit) {
           storeDataInCache(compareCity, year, compareCityData.data);
         }
       } else {
@@ -147,12 +143,16 @@ enddate=${year}-12-31`);
                 See Results
               </Button>
             </div>
-            {(results || reqErr) && (
+            {results && (
               <Results
                 data={results}
                 loading={loading}
-                error={reqErr}
               />
+            )}
+            {reqErr && (
+              <div className="error-text">
+                Unable to retrieve data. Please try again later.
+              </div>
             )}
           </Container>
         </ThemeProvider>

@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import map from 'lodash/map';
-import startCase from 'lodash/startCase';
+import isEmpty from 'lodash/isEmpty';
 import {
   BarChart,
   Bar,
@@ -27,27 +27,31 @@ const XTick = ({ payload: { value }, width, ...rest }) =>
     {getMonthLabelWithChartWidth(value, width)}
   </text>
 
-const Results = ({ data, error, loading }) => {
+const Results = ({ data, loading }) => {
   const { firstCity, compareCity } = data;
 
-  const chartData = useMemo(() =>
-    map(firstCity.monthNiceDays, (days, month) => ({
-      month,
-      niceDays: days.length,
-      niceDaysCompare: compareCity.monthNiceDays[month].length
-    })), [firstCity, compareCity])
+  const chartData = useMemo(() => {
+    const data = map(firstCity.monthNiceDays, (days, month) =>
+      ({
+        month,
+        niceDays: days.length,
+      }))
+    return !isEmpty(compareCity)
+      ? data.map(point =>
+        ({
+          ...point,
+          niceDaysCompare: compareCity.monthNiceDays?.[point.month]?.length
+        }))
+      : data
+  }, [firstCity, compareCity])
 
   const getWikiUrl = label => label ? `${wikiUrl}${label.replace(' ', '_')}` : null
 
   const firstCityLabel = getCityNameFromRecord(firstCity.city)
-  const compareCityLabel = getCityNameFromRecord(compareCity.city)
+  const compareCityLabel = getCityNameFromRecord(compareCity?.city)
 
   return (
     <div className="results-area">
-      {error &&
-        <div className="error-text">
-          Unable to retrieve data. Please try again later.
-        </div>}
       {loading &&
         <Puff
           color="#00BFFF"
@@ -92,10 +96,10 @@ const Results = ({ data, error, loading }) => {
                 minTickGap={-50}
               />
               <YAxis domain={[0, maxNiceDaysInMonth]} width={30} label={{ value: 'Nice Days', angle: -90, position: 'left', offset: 10 }} />
-              <Tooltip formatter={(value, name) => [value, startCase(name === "niceDays" ? firstCityLabel : compareCityLabel)]} />
+              <Tooltip formatter={(value, name) => [value, name === "niceDays" ? firstCityLabel : compareCityLabel]} />
               <Legend formatter={(value => value === "niceDays" ? firstCityLabel : compareCityLabel)} height={24} />
               <Bar dataKey="niceDays" fill="#334bc4" />
-              <Bar dataKey="niceDaysCompare" fill="#129614" />
+              {!isEmpty(compareCity) ? <Bar dataKey="niceDaysCompare" fill="#129614" /> : null}
             </BarChart>
           </ResponsiveContainer>
         </Paper>

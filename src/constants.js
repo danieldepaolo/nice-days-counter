@@ -5,8 +5,8 @@ export const defaultNiceDayForm = {
 };
 
 export const defaultQueryForm = {
-  city: null,
-  compareCity: null,
+  city: undefined,
+  compareCity: undefined,
   year: '2022'
 };
 

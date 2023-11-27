@@ -19,16 +19,15 @@ const yearOptions = [
 ];
 
 const QueryForm = ({ fieldState, handleChange }) => {
-  const getCityOptions = useCallback((options = { disabledOptions: [], topN: 1000 }) =>
+  const cityOptions =
     orderBy(
-      topCities.slice(0, options.topN),
+      topCities.slice(0, 1000),
       record => Number(record.fields.population),
       'desc'
     ).map(record => ({
       value: record,
-      label: getCityNameFromRecord(record),
-      isDisabled: options.disabledOptions.includes(record)
-    })), [])
+      label: getCityNameFromRecord(record)
+    }))
 
   return (
     <>
@@ -50,7 +49,7 @@ const QueryForm = ({ fieldState, handleChange }) => {
               height: '100%'
             })
           }}
-          options={getCityOptions({ disabledOptions: [fieldState.compareCity], topN: 1000 })}
+          options={cityOptions}
           onChange={value => {
             handleChange("city", value)
           }}
@@ -72,7 +71,7 @@ const QueryForm = ({ fieldState, handleChange }) => {
               height: '100%'
             })
           }}
-          options={getCityOptions({ disabledOptions: [fieldState.city], topN: 1000 })}
+          options={cityOptions}
           onChange={value => {
             handleChange("compareCity", value)
           }}

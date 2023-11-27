@@ -9,7 +9,7 @@ export const isNiceDay = (dailyData, userFields) => {
 };
 
 export const getCityNameFromRecord = record =>
-  `${record.fields.city}, ${record.fields.state}`
+  record ? `${record.fields?.city}, ${record.fields?.state}` : "N/A"
 
 export const getMonthLabelWithChartWidth = (label, width) => {
   if (width > 930) {
