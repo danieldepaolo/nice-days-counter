@@ -1,6 +1,6 @@
 import React from 'react';
 import SliderField from './formFields/SliderField';
-import { Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
 const tempMarks = [
   {value: 30, label: "30F"},
@@ -27,6 +27,7 @@ const sunshineDurationMarks = [
 const NiceDayForm = ({ fieldState, handleChange }) =>
   <div>
     <Typography variant="h5">Define "Nice Day"</Typography>
+    <Box display="flex" flexDirection="column" gap={2}>
       <SliderField
         name="tempRange"
         label='High "Feels-like" Temperature Range'
@@ -54,6 +55,7 @@ const NiceDayForm = ({ fieldState, handleChange }) =>
         onChange={value => handleChange("minSunshineDuration", value)}
         value={fieldState.minSunshineDuration}
       />
+    </Box>
   </div>
 
 export default NiceDayForm

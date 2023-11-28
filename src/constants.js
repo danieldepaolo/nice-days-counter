@@ -27,4 +27,7 @@ export const defaultMonthNiceDays = {
   "December": [],
 };
 
-export const wikiUrl = 'https://en.wikipedia.org/wiki/'
+export const wikiUrl = 'https://en.wikipedia.org/wiki/';
+
+export const firstCityColor = "#334bc4";
+export const compareCityColor = "#129614";

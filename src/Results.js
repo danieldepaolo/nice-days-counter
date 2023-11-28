@@ -11,16 +11,12 @@ import {
   YAxis,
   CartesianGrid
 } from 'recharts';
-import {
-  Paper,
-  Typography,
-  Box
-} from '@mui/material';
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import { Puff } from 'react-loader-spinner';
+import { Box, Paper } from '@mui/material';
+import { Dna } from 'react-loader-spinner';
 
-import { maxNiceDaysInMonth, wikiUrl } from './constants';
+import { compareCityColor, firstCityColor, maxNiceDaysInMonth } from './constants';
 import { getMonthLabelWithChartWidth, getCityNameFromRecord } from './helpers';
+import CityResult from './CityResult';
 
 const XTick = ({ payload: { value }, width, ...rest }) => 
   <text {...rest} dy={12}>
@@ -45,47 +41,23 @@ const Results = ({ data, loading }) => {
       : data
   }, [firstCity, compareCity])
 
-  const getWikiUrl = label => label ? `${wikiUrl}${label.replace(' ', '_')}` : null
-
   const firstCityLabel = getCityNameFromRecord(firstCity.city)
   const compareCityLabel = getCityNameFromRecord(compareCity?.city)
 
   return (
     <div className="results-area">
-      {loading &&
-        <Puff
-          color="#00BFFF"
-          height={100}
-          width={100}
-      />}
+      <Box textAlign="center">
+        <Dna
+          visible={loading}
+          height={150}
+          width={300}
+        />
+      </Box>
       {firstCity && !loading &&
         <Paper elevation={1} className="bar-chart-wrapper">
-          <Box display="flex" gap={4} mb={3} ml={2}>
-            <div>
-              <Typography variant="h6">
-                {firstCityLabel}{' '}
-                <a
-                  href={getWikiUrl(firstCityLabel)}
-                  className="better-link"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <InfoOutlinedIcon fontSize='small' />
-                </a>
-              </Typography>
-              <Typography
-                color="textSecondary"
-                variant="subtitle2"
-              >
-                {`Population ${
-                  Number(firstCity.city.fields.population).toLocaleString()}`}
-              </Typography>
-            </div>
-            <Box mt={2}>
-              <Typography variant="body1">
-                {firstCity.niceDayCount} nice days in {firstCity.year}
-              </Typography>
-            </Box>
+          <Box display="flex" flexWrap="wrap" gap={3} mb={3} ml={2}>
+            <CityResult city={firstCity} color={firstCityColor} />
+            <CityResult city={compareCity} color={compareCityColor} />
           </Box>
           <ResponsiveContainer minHeight={280} maxHeight={360}>
             <BarChart data={chartData} margin={{ left: 20, right: 15, top: 10, bottom: 10 }}>
@@ -95,11 +67,14 @@ const Results = ({ data, loading }) => {
                 tick={<XTick />}
                 minTickGap={-50}
               />
-              <YAxis domain={[0, maxNiceDaysInMonth]} width={30} label={{ value: 'Nice Days', angle: -90, position: 'left', offset: 10 }} />
+              <YAxis
+                domain={[0, maxNiceDaysInMonth]}
+                width={30}
+                label={{ value: 'Nice Days', angle: -90, position: 'left', offset: 10 }}
+              />
               <Tooltip formatter={(value, name) => [value, name === "niceDays" ? firstCityLabel : compareCityLabel]} />
-              <Legend formatter={(value => value === "niceDays" ? firstCityLabel : compareCityLabel)} height={24} />
-              <Bar dataKey="niceDays" fill="#334bc4" />
-              {!isEmpty(compareCity) ? <Bar dataKey="niceDaysCompare" fill="#129614" /> : null}
+              <Bar dataKey="niceDays" fill={firstCityColor} />
+              {!isEmpty(compareCity) ? <Bar dataKey="niceDaysCompare" fill={compareCityColor} /> : null}
             </BarChart>
           </ResponsiveContainer>
         </Paper>
