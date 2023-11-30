@@ -1,5 +1,5 @@
-# Nice Days Counter Backend
-Backend API for my Nice Days Counter app
+# Nice Days Counter
+An app for you to find a city with weather you can live with.
 
 <!-- TABLE OF CONTENTS -->
 <details>
