@@ -46,7 +46,6 @@ To get a local copy up and running follow these steps.
 ### Prerequisites
 
 * <a href="https://nodejs.org/en/">NodeJS</a>
-* Run the backend by following instructions here: https://github.com/danieldepaolo/nice-days-counter-backend
 
 ### Installation
 
