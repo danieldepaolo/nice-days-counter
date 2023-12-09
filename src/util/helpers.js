@@ -24,7 +24,11 @@ export const getMonthLabelWithChartWidth = (label, width) => {
 export const convertCityToKey = (cityName, year) => `${cityName.replace(/\s/g, "_").toLowerCase()}_${year}`
 
 export const storeDataInCache = (city, year, data = {}) => {
-  localStorage.setItem(convertCityToKey(city.fields.city, year), JSON.stringify(data));
+  try {
+    localStorage.setItem(convertCityToKey(city.fields.city, year), JSON.stringify(data));
+  } catch (err) {
+    console.warn("Unable to store data in localStorage: ", err)
+  }
 }
 
 export const getCachedData = (city, year) => {

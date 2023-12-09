@@ -1,8 +1,8 @@
 import { Box, Typography } from "@mui/material"
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import isEmpty from "lodash/isEmpty"
-import { wikiUrl } from './constants';
-import { getCityNameFromRecord } from './helpers';
+import { wikiUrl } from '../util/constants';
+import { getCityNameFromRecord } from '../util/helpers';
 
 const CityResult = ({ city, color }) => {
   if (isEmpty(city)) return null

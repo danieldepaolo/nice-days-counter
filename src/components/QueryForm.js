@@ -1,10 +1,9 @@
-import React, { useCallback } from 'react';
-import DropdownField from './formFields/DropdownField';
+import DropdownField from '../formFields/DropdownField';
 import Select, { createFilter } from 'react-select';
 import orderBy from 'lodash/orderBy';
-import topCities from './1000-largest-us-cities-by-population-with-geographic-coordinates';
+import topCities from '../data/1000-largest-us-cities-by-population-with-geographic-coordinates';
 
-import { getCityNameFromRecord } from './helpers';
+import { getCityNameFromRecord } from '../util/helpers';
 import { Typography } from '@mui/material';
 
 const yearOptions = [

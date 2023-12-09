@@ -1,5 +1,5 @@
 import React from 'react';
-import SliderField from './formFields/SliderField';
+import SliderField from '../formFields/SliderField';
 import { Box, Typography } from '@mui/material';
 
 const tempMarks = [

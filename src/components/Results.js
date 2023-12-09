@@ -4,7 +4,6 @@ import isEmpty from 'lodash/isEmpty';
 import {
   BarChart,
   Bar,
-  Legend,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -14,8 +13,8 @@ import {
 import { Box, Paper } from '@mui/material';
 import { Dna } from 'react-loader-spinner';
 
-import { compareCityColor, firstCityColor, maxNiceDaysInMonth } from './constants';
-import { getMonthLabelWithChartWidth, getCityNameFromRecord } from './helpers';
+import { compareCityColor, firstCityColor, maxNiceDaysInMonth } from '../util/constants';
+import { getMonthLabelWithChartWidth, getCityNameFromRecord } from '../util/helpers';
 import CityResult from './CityResult';
 
 const XTick = ({ payload: { value }, width, ...rest }) => 

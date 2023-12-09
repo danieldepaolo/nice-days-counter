@@ -1,22 +1,22 @@
 import React, { useState } from 'react';
-import './App.css';
 import { DateTime } from "luxon"
-import axios from 'axios';
 import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
-import appTheme from "./Theme"
 import { Box, Button, Container, ThemeProvider, StyledEngineProvider, Typography } from '@mui/material';
 
-import { isNiceDay, storeDataInCache, getCachedData } from './helpers';
-import NiceDayForm from './NiceDayForm';
-import QueryForm from './QueryForm';
-import Results from './Results';
+import NiceDayForm from './components/NiceDayForm';
+import QueryForm from './components/QueryForm';
+import Results from './components/Results';
 import {
   defaultNiceDayForm,
   defaultQueryForm,
   defaultMonthNiceDays
-} from './constants';
-import appLogo from './aerial-photo-of-mountain-surrounded-by-fog-733174.jpg';
+} from './util/constants';
+import { isNiceDay } from './util/helpers';
+import appLogo from './assets/aerial-photo-of-mountain-surrounded-by-fog-733174.jpg';
+import { fetchDailyWeatherDataForYear } from './service';
+import appTheme from "./Theme"
+import './styles/App.css';
 
 const App = () => {
   const [niceDayFormValues, setNiceDayFormValues] = useState(defaultNiceDayForm);
@@ -51,24 +51,13 @@ const App = () => {
     }))
   )
 
-  const getDataForCity = async (city) => {
-    const { year } = queryFormValues;
-    const localData = getCachedData(city, year);
-    setReqErr(false)
-    if (!localData) {
-      const apiUrl = process.env.REACT_APP_BACKEND_URL || "https://nice-days-app-backend.herokuapp.com";
-      setLoading(true)
-
-      const { data: { data, error } } = await axios(`${apiUrl}/nicedays?
-lat=${city.geometry.coordinates[1]}&
-lon=${city.geometry.coordinates[0]}&
-startdate=${year}-01-01&
-enddate=${year}-12-31`);
-
-      return { data, error, cacheHit: false };
-    } else { // cache hit
-      return { data: localData, error: null, cacheHit: true };
+  const getNiceDaysDataForCity = async (city) => {
+    if (!city) {
+      return {}
     }
+    const { year } = queryFormValues;
+    const { data, error } = await fetchDailyWeatherDataForYear({ city, year })
+    return { data: compileResultsForCity(city, data.daily), error }
   }
 
   const handleSubmitQuery = async () => {
@@ -77,28 +66,19 @@ enddate=${year}-12-31`);
     try {
       const {
         city: { value: firstCity },
-        compareCity: { value: compareCity } = {},
-        year
+        compareCity: { value: compareCity } = {}
       } = queryFormValues;
 
-      const firstCityData = await getDataForCity(firstCity);
-      const compareCityData = compareCity ? await getDataForCity(compareCity) : null;
-      const error = firstCityData.data.error || compareCityData?.data?.error
+      setLoading(true)
+      const firstCityResult = await getNiceDaysDataForCity(firstCity);
+      const compareCityResult = await getNiceDaysDataForCity(compareCity);
+      const error = firstCityResult.error || compareCityResult?.error
 
       if (isEmpty(error)) {
-        const results = {
-          firstCity: compileResultsForCity(firstCity, firstCityData.data.daily),
-          compareCity: compareCityData ? compileResultsForCity(compareCity, compareCityData.data.daily) : {}
-        };
-
-        setResults(results)
-
-        if (!firstCityData.cacheHit) {
-          storeDataInCache(firstCity, year, firstCityData.data);
-        }
-        if (compareCityData && !compareCityData.cacheHit) {
-          storeDataInCache(compareCity, year, compareCityData.data);
-        }
+        setResults({
+          firstCity: firstCityResult.data,
+          compareCity: compareCityResult.data
+        })
       } else {
         setReqErr(error)
       }
