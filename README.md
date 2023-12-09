@@ -1,68 +1,96 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Nice Days Counter
+An app for you to find a city with weather you can live with.
 
-## Available Scripts
+<!-- TABLE OF CONTENTS -->
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+      <ul>
+        <li><a href="#built-with">Built With</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#installation">Installation</a></li>
+      </ul>
+    </li>
+    <li><a href="#usage">Usage</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#acknowledgments">Acknowledgments</a></li>
+  </ol>
+</details>
 
-In the project directory, you can run:
 
-### `yarn start`
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+<!-- ABOUT THE PROJECT -->
+## About The Project
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+This app allows the user to get an idea of how many nice days a city experiences in a given year. You are able to define the parameters of a nice day by choosing an ideal temperature range, number of sunshine hours, and amount of rainfall. Two cities can be compared by choosing cities in both dropdown lists.
 
-### `yarn test`
+Weather data comes from <a href="https://open-meteo.com/">OpenMeteo</a>.
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Built With
+- [Create React App](https://github.com/facebook/create-react-app)
+- ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+- ![MUI](https://img.shields.io/badge/MUI-%230081CB.svg?style=for-the-badge&logo=mui&logoColor=white)
 
-### `yarn build`
+<!-- GETTING STARTED -->
+## Getting Started
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+To get a local copy up and running follow these steps.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+### Prerequisites
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+* <a href="https://nodejs.org/en/">NodeJS</a>
+* Run the backend by following instructions here: https://github.com/danieldepaolo/nice-days-counter-backend
 
-### `yarn eject`
+### Installation
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+1. Clone the repo
+2. Install NPM packages
+   ```sh
+   yarn install
+   ```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+<!-- USAGE EXAMPLES -->
+## Usage
+```sh
+yarn start
+```
+- Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- Use the sliders to define your acceptable or ideal daily temperature range, max rainfall amount, and minimum sunshine duration.
+- Choose one or two cities from the dropdowns and choose a year.
+- Click "See Results" to see a chart of nice days by month for each city.
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+<!-- ROADMAP -->
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+<!-- CONTRIBUTING -->
 
-## Learn More
+<!-- LICENSE -->
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+<!-- CONTACT -->
+## Contact
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Daniel DePaolo - djdep13@gmail.com
 
-### Code Splitting
+Project Link: [https://github.com/danieldepaolo/nice-days-counter](https://github.com/danieldepaolo/nice-days-counter)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-### Analyzing the Bundle Size
+<!-- ACKNOWLEDGMENTS -->
+## Acknowledgments
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+* [OpenMeteo Free Weather API](https://open-meteo.com/)
+* [Recharts](https://recharts.org)
+* [React Select](https://react-select.com/home)
+* [Luxon](https://moment.github.io/luxon)
+* [React Loader Spinner](https://mhnpd.github.io/react-loader-spinner/)
 
-### Making a Progressive Web App
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+<!-- MARKDOWN LINKS & IMAGES -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
