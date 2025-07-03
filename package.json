@@ -11,16 +11,16 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
-    "axios": "^1.6.2",
+    "axios": "^1.10.0",
     "lodash": "^4.17.21",
-    "luxon": "^3.4.4",
+    "luxon": "^3.6.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-loader-spinner": "^5.4.5",
     "react-scripts": "5.0.1",
     "react-select": "4.3.1",
     "react-virtualized": "^9.22.6",
-    "recharts": "^2.10.1"
+    "recharts": "^3.0.2"
   },
   "scripts": {
     "predeploy": "yarn build",
