@@ -1,10 +1,12 @@
-import DropdownField from '../formFields/DropdownField';
-import Select, { createFilter } from 'react-select';
-import orderBy from 'lodash/orderBy';
-import topCities from '../data/1000-largest-us-cities-by-population-with-geographic-coordinates';
+import { createFilter } from "react-select";
+import { Typography } from "@mui/material";
 
-import { getCityNameFromRecord } from '../util/helpers';
-import { Typography } from '@mui/material';
+import DropdownField from "../formFields/DropdownField";
+import VirtualizedSelect from "./VirtualizedSelect";
+
+import { getCityNameFromRecord } from "../util/helpers";
+import orderBy from "lodash/orderBy";
+import topCities from "../data/1000-largest-us-cities-by-population-with-geographic-coordinates";
 
 const yearOptions = [
   { value: "2022", label: "2022" },
@@ -14,65 +16,64 @@ const yearOptions = [
   { value: "2018", label: "2018" },
   { value: "2017", label: "2017" },
   { value: "2016", label: "2016" },
-  { value: "2015", label: "2015" }
+  { value: "2015", label: "2015" },
 ];
 
 const QueryForm = ({ fieldState, handleChange }) => {
-  const cityOptions =
-    orderBy(
-      topCities.slice(0, 1000),
-      record => Number(record.fields.population),
-      'desc'
-    ).map(record => ({
-      value: record,
-      label: getCityNameFromRecord(record)
-    }))
+  const cityOptions = orderBy(
+    topCities,
+    (record) => Number(record.fields.population),
+    "desc"
+  ).map((record) => ({
+    value: record,
+    label: getCityNameFromRecord(record),
+  }));
 
   return (
     <>
       <Typography variant="h5">City and Year</Typography>
       <div className="query-form">
-        <Select
+        <VirtualizedSelect
           name="city"
           label="City"
           placeholder="Select a city..."
           filterOption={createFilter({ ignoreAccents: false })}
           styles={{
-            container: provided => ({
+            container: (provided) => ({
               ...provided,
               width: 265,
-              height: 56
+              height: 56,
             }),
-            control: provided => ({
+            control: (provided) => ({
               ...provided,
-              height: '100%'
-            })
+              height: "100%",
+            }),
           }}
           options={cityOptions}
-          onChange={value => {
-            handleChange("city", value)
+          onChange={(value) => {
+            handleChange("city", value);
           }}
           value={fieldState.city}
         />
-        <Select
+        <VirtualizedSelect
           name="compareCity"
           label="Compare city"
           placeholder="Select a compare city..."
           filterOption={createFilter({ ignoreAccents: false })}
           styles={{
-            container: provided => ({
+            container: (provided) => ({
               ...provided,
               width: 265,
-              height: 56
+              height: 56,
             }),
-            control: provided => ({
+            control: (provided) => ({
               ...provided,
-              height: '100%'
-            })
+              height: "100%",
+            }),
           }}
           options={cityOptions}
-          onChange={value => {
-            handleChange("compareCity", value)
+          onChange={(value) => {
+            handleChange("compareCity", value);
           }}
           value={fieldState.compareCity}
         />
@@ -80,14 +81,14 @@ const QueryForm = ({ fieldState, handleChange }) => {
           name="year"
           label="Year"
           options={yearOptions}
-          onChange={val => {
-            handleChange("year", val)
+          onChange={(val) => {
+            handleChange("year", val);
           }}
           value={fieldState.year}
         />
       </div>
     </>
-  )
-}
+  );
+};
 
-export default QueryForm
+export default QueryForm;

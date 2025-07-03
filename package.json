@@ -19,6 +19,7 @@
     "react-loader-spinner": "^5.4.5",
     "react-scripts": "5.0.1",
     "react-select": "4.3.1",
+    "react-virtualized": "^9.22.6",
     "recharts": "^2.10.1"
   },
   "scripts": {
