@@ -6,8 +6,8 @@
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
-    "@mui/icons-material": "^5.14.18",
-    "@mui/material": "^5.14.18",
+    "@mui/icons-material": "5.x",
+    "@mui/material": "5.x",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
@@ -18,7 +18,7 @@
     "react-dom": "^18.2.0",
     "react-loader-spinner": "^5.4.5",
     "react-scripts": "5.0.1",
-    "react-select": "4.3.1",
+    "react-select": "5.10.1",
     "react-virtualized": "^9.22.6",
     "recharts": "^3.0.2"
   },
