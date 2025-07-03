@@ -1,6 +1,8 @@
 # Nice Days Counter
 An app for you to find a city with weather you can live with.
 
+[Live site](https://danieldepaolo.github.io/nice-days-counter/)
+
 <!-- TABLE OF CONTENTS -->
 <details>
   <summary>Table of Contents</summary>
