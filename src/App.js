@@ -7,6 +7,7 @@ import { Box, Button, Container, ThemeProvider, StyledEngineProvider, Typography
 import NiceDayForm from './components/NiceDayForm';
 import QueryForm from './components/QueryForm';
 import Results from './components/Results';
+
 import {
   defaultNiceDayForm,
   defaultQueryForm,
@@ -55,6 +56,7 @@ const App = () => {
     if (!city) {
       return {}
     }
+
     const { year } = queryFormValues;
     const { data, error } = await fetchDailyWeatherDataForYear({ city, year })
     return { data: compileResultsForCity(city, data.daily), error }
@@ -132,6 +134,7 @@ const App = () => {
             {reqErr && (
               <div className="error-text">
                 Unable to retrieve data. Please try again later.
+                {reqErr.message}
               </div>
             )}
           </Container>

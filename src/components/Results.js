@@ -13,16 +13,14 @@ import {
 import { Box, Paper } from "@mui/material";
 import { Dna } from "react-loader-spinner";
 
+import CityResult from "./CityResult";
+
 import {
   compareCityColor,
   firstCityColor,
   maxNiceDaysInMonth,
 } from "../util/constants";
-import {
-  getMonthLabelWithChartWidth,
-  getCityNameFromRecord,
-} from "../util/helpers";
-import CityResult from "./CityResult";
+import { getMonthLabelWithChartWidth } from "../util/helpers";
 
 const XTick = ({ payload: { value }, width, ...rest }) => (
   <text {...rest} dy={12}>
@@ -33,11 +31,14 @@ const XTick = ({ payload: { value }, width, ...rest }) => (
 const Results = ({ data, loading }) => {
   const { firstCity, compareCity } = data;
 
+  console.log(firstCity, compareCity)
+
   const chartData = useMemo(() => {
     const data = map(firstCity.monthNiceDays, (days, month) => ({
       month,
       niceDays: days.length,
     }));
+
     return !isEmpty(compareCity)
       ? data.map((point) => ({
           ...point,
@@ -45,9 +46,6 @@ const Results = ({ data, loading }) => {
         }))
       : data;
   }, [firstCity, compareCity]);
-
-  const firstCityLabel = getCityNameFromRecord(firstCity.city);
-  const compareCityLabel = getCityNameFromRecord(compareCity?.city);
 
   return (
     <div className="results-area">
@@ -80,7 +78,7 @@ const Results = ({ data, loading }) => {
               <Tooltip
                 formatter={(value, name) => [
                   value,
-                  name === "niceDays" ? firstCityLabel : compareCityLabel,
+                  name === "niceDays" ? firstCity.city.name : compareCity.city.name,
                 ]}
               />
               <Bar dataKey="niceDays" fill={firstCityColor} />

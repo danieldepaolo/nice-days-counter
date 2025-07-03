@@ -17,7 +17,7 @@ const CustomOption = ({
     whiteSpace: "nowrap",
     overflow: "hidden",
     textOverflow: "ellipsis",
-  }
+  };
 
   const optionStyles = {
     height: ROW_HEIGHT,
@@ -26,9 +26,9 @@ const CustomOption = ({
 
   return (
     <div ref={innerRef} style={optionStyles} {...innerProps}>
-      <div style={{ ...noWrapEllipsis }}>{children}</div>
-      <Typography variant="caption" color={grey[500]}>
-        Population: {value.fields.population}
+      <div style={noWrapEllipsis}>{children}</div>
+      <Typography variant="caption" color={grey[600]}>
+        Population: {value.population.toLocaleString()}
       </Typography>
     </div>
   );
@@ -54,7 +54,7 @@ const VirtualizedMenuList = (props) => {
     <List
       height={props.maxHeight}
       width={300}
-      rowCount={props.options.length}
+      rowCount={props.children.length}
       rowHeight={ROW_HEIGHT}
       rowRenderer={rowRenderer}
       overscanRowCount={10}

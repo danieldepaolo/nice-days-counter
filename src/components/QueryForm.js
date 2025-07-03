@@ -1,12 +1,37 @@
+import { useMemo } from "react";
 import { createFilter } from "react-select";
 import { Typography } from "@mui/material";
 
 import DropdownField from "../formFields/DropdownField";
 import VirtualizedSelect from "./VirtualizedSelect";
 
-import { getCityNameFromRecord } from "../util/helpers";
 import orderBy from "lodash/orderBy";
-import topCities from "../data/1000-largest-us-cities-by-population-with-geographic-coordinates";
+import citiesData from "../data/geonames-all-cities-with-a-population-1000.json";
+
+/* City record structure
+{
+  "geoname_id": "4347553",
+  "name": "Aspen Hill",
+  "ascii_name": "Aspen Hill",
+  "alternate_names": ["Aspen Hill"],
+  "feature_class": "P",
+  "feature_code": "PPL",
+  "country_code": "US",
+  "cou_name_en": "United States",
+  "country_code_2": null,
+  "admin1_code": "MD",
+  "admin2_code": "031",
+  "admin3_code": null,
+  "admin4_code": null,
+  "population": 48759,
+  "elevation": "100",
+  "dem": 99,
+  "timezone": "America/New_York",
+  "modification_date": "2018-09-24",
+  "label_en": "United States",
+  "coordinates": { "lon": -77.07303, "lat": 39.07955 }
+}
+*/
 
 const yearOptions = [
   { value: "2022", label: "2022" },
@@ -20,14 +45,20 @@ const yearOptions = [
 ];
 
 const QueryForm = ({ fieldState, handleChange }) => {
-  const cityOptions = orderBy(
-    topCities,
-    (record) => Number(record.fields.population),
-    "desc"
-  ).map((record) => ({
-    value: record,
-    label: getCityNameFromRecord(record),
-  }));
+  const cityOptions = useMemo(() => {
+    const significantCities = citiesData.filter(
+      (record) => record.population > 5000
+    );
+
+    return orderBy(
+      significantCities,
+      (record) => record.population,
+      "desc"
+    ).map((record) => ({
+      value: record,
+      label: `${record.name}, ${record.admin1_code}`,
+    }));
+  }, []);
 
   return (
     <>

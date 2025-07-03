@@ -10,8 +10,8 @@ async function fetchDailyWeatherData (options) {
     endDate,
     dailyVariables = defaultDailyVariables
   } = options
-  const lat = city?.geometry?.coordinates?.[1]
-  const lon = city?.geometry?.coordinates?.[0]
+  const { lat, lon } = city?.coordinates || {}
+
   if (!lat || !lon) {
     return {
       data: {},
@@ -33,6 +33,7 @@ async function fetchDailyWeatherData (options) {
         return dailyData
       })
     }
+
     return {
       data: responseData,
       error: null
