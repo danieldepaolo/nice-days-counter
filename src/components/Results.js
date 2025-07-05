@@ -21,6 +21,7 @@ import {
   maxNiceDaysInMonth,
 } from "../util/constants";
 import { getMonthLabelWithChartWidth } from "../util/helpers";
+import { theme } from "../Theme";
 
 const XTick = ({ payload: { value }, width, ...rest }) => (
   <text {...rest} dy={12}>
@@ -45,13 +46,27 @@ const Results = ({ data, loading }) => {
       : data;
   }, [firstCity, compareCity]);
 
+  const barChartContainerStyles = {
+    width: '95%',
+    minWidth: '330px',
+    maxWidth: '1000px',
+    marginTop: '10px',
+    padding: '20px 15px 10px 15px',
+
+    [theme.breakpoints.down('sm')]: {
+      padding: '20px 5px 10px 0',
+      width: '90%',
+      boxShadow: 'none',
+    }
+  }
+
   return (
     <div>
       <Box textAlign="center">
         <Dna visible={loading} height={150} width={300} />
       </Box>
       {firstCity && !loading && (
-        <Paper elevation={1} className="bar-chart-wrapper">
+        <Paper elevation={1} sx={barChartContainerStyles}>
           <Box display="flex" flexWrap="wrap" gap={3} mb={3} ml={2}>
             <CityResult city={firstCity} color={firstCityColor} />
             <CityResult city={compareCity} color={compareCityColor} />
@@ -76,7 +91,9 @@ const Results = ({ data, loading }) => {
               <Tooltip
                 formatter={(value, name) => [
                   value,
-                  name === "niceDays" ? firstCity.city.name : compareCity.city.name,
+                  name === "niceDays"
+                    ? firstCity.city.name
+                    : compareCity.city.name,
                 ]}
               />
               <Bar dataKey="niceDays" fill={firstCityColor} />

@@ -1,26 +1,24 @@
 import { createTheme } from "@mui/material";
 
-const theme = createTheme({
+export const theme = createTheme({
   typography: {
     h1: {
-      fontSize: "3rem"
+      fontSize: "2rem"
     },
     h2: {
-      fontSize: "2.5rem"
+      fontSize: "1.7rem"
     },
     h3: {
-      fontSize: "2.05rem"
+      fontSize: "1.5rem"
     },
     h4: {
-      fontSize: "1.65rem"
+      fontSize: "1.3rem"
     },
     h5: {
-      fontSize: "1.4rem"
+      fontSize: "1.2rem"
     },
     h6: {
-      fontSize: "1.2rem"
+      fontSize: "1.1rem"
     }
   }
 })
-
-export default theme

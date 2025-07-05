@@ -1,6 +1,8 @@
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import omit from "lodash/omit";
+
+import NoWrap from "../ui/NoWrap";
 
 import { SELECT_OPTION_HEIGHT } from "../../util/constants";
 
@@ -13,14 +15,14 @@ const CustomOption = ({
   isSelected,
   ...props
 }) => {
-  const noWrapEllipsis = {
-    whiteSpace: "nowrap",
-    overflow: "hidden",
-    textOverflow: "ellipsis",
-  };
-
   const optionStyles = {
     height: SELECT_OPTION_HEIGHT,
+    bgcolor: isSelected ? 'rgb(162, 162, 235)' : undefined,
+
+    '&:hover': {
+      bgcolor: '#deebff'
+    },
+
     ...omit(getStyles("option", props), ["backgroundColor", "color"]),
   };
 
@@ -31,17 +33,16 @@ const CustomOption = ({
   };
 
   return (
-    <div
+    <Box
       ref={innerRef}
-      className={`custom-option${isSelected ? ' custom-option--is-selected' : ''}`}
-      style={optionStyles}
+      sx={optionStyles}
       {...fasterInnerProps}
     >
-      <div style={noWrapEllipsis}>{children}</div>
+      <NoWrap>{children}</NoWrap>
       <Typography variant="caption" color={grey[600]}>
         Population: {value.population.toLocaleString()}
       </Typography>
-    </div>
+    </Box>
   );
 };
 

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import isEmpty from "lodash/isEmpty";
 import {
+  Box,
   Container,
   ThemeProvider,
   StyledEngineProvider,
@@ -12,7 +13,7 @@ import Results from "./components/Results";
 
 import appLogo from "./assets/aerial-photo-of-mountain-surrounded-by-fog-733174.jpg";
 import WeatherDataService from "./service";
-import appTheme from "./Theme";
+import { theme } from "./Theme";
 import "./styles/App.css";
 
 const App = () => {
@@ -53,26 +54,33 @@ const App = () => {
   return (
     <div>
       <StyledEngineProvider injectFirst>
-        <ThemeProvider theme={appTheme}>
-          <div className="app-header-bar">
-            <Container className="header-content" maxWidth="md">
-              <div className="header-left">
+        <ThemeProvider theme={theme}>
+          <Box bgcolor="#dce6fd" padding=".8em 0" mb={4}>
+            <Container
+              maxWidth="md"
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              <Box display="flex" alignItems="center">
                 <img
                   src={appLogo}
                   className="app-logo"
                   alt="Nice Days Counter"
                 />
-                <Typography variant="h4" className="app-title">
+                <Typography variant="h2" letterSpacing="1px">
                   Nice Days Counter
                 </Typography>
-              </div>
+              </Box>
             </Container>
-          </div>
+          </Box>
           <Container maxWidth="md">
             <NiceDayForm handleSubmit={handleSubmitQuery} isLoading={loading} />
-            <div className="results-area">
+            <Box sx={{ padding: "1.5em 0em", minWidth: "300px" }}>
               {results && <Results data={results} loading={loading} />}
-            </div>
+            </Box>
             {reqErr && (
               <div className="error-text">
                 Unable to retrieve data. Please try again later.

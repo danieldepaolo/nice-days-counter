@@ -8,6 +8,8 @@ import DropdownField from "./form/DropdownField";
 import VirtualizedSelect from "./form/VirtualizedSelect";
 import CustomOption from "./form/CustomSelectOption";
 
+import { theme } from "../Theme";
+
 import citiesData from "../data/geonames-all-cities-with-a-population-10000.json";
 
 const tempMarks = [
@@ -86,8 +88,8 @@ const NiceDayForm = ({ handleSubmit, isLoading }) => {
 
   return (
     <form onSubmit={onPressSubmit}>
-      <Typography variant="h5">Define "Nice Day"</Typography>
-      <Box display="flex" flexDirection="column" gap={2}>
+      <Typography variant="h4">Define "Nice Day"</Typography>
+      <Box display="flex" flexDirection="column" gap={1} mb={4}>
         <SliderField
           name="tempRange"
           label='High "Feels-like" Temperature Range'
@@ -123,8 +125,19 @@ const NiceDayForm = ({ handleSubmit, isLoading }) => {
         />
       </Box>
 
-      <Typography variant="h5">City and Year</Typography>
-      <div className="query-form">
+      <Typography variant="h4">City and Year</Typography>
+      <Box
+        marginTop={2}
+        display="flex"
+        alignItems="center"
+        gap={2}
+        sx={{
+          [theme.breakpoints.down("sm")]: {
+            flexDirection: "column",
+            alignItems: 'flex-start'
+          },
+        }}
+      >
         <VirtualizedSelect
           name="city"
           label="City"
@@ -188,18 +201,21 @@ const NiceDayForm = ({ handleSubmit, isLoading }) => {
           }}
           value={year}
         />
+      </Box>
 
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          className="submit-btn"
-          style={{ display: "block" }}
-          disabled={!city || isLoading}
-        >
-          See Results
-        </Button>
-      </div>
+      <Button
+        type="submit"
+        variant="contained"
+        color="primary"
+        sx={{
+          display: "block",
+          marginTop: 2,
+          padding: theme.spacing(1, 5)
+        }}
+        disabled={!city || isLoading}
+      >
+        See Results
+      </Button>
     </form>
   );
 };
