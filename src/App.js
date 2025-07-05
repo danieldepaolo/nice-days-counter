@@ -21,7 +21,6 @@ const App = () => {
   const [reqErr, setReqErr] = useState(false);
 
   const handleSubmitQuery = async (formValues) => {
-    console.log(formValues);
     if (!formValues.city) return;
 
     const service = new WeatherDataService(formValues);
