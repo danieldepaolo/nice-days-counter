@@ -55,7 +55,7 @@ const App = () => {
     <div>
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={theme}>
-          <Box bgcolor="#dce6fd" padding=".8em 0" mb={4}>
+          <Box bgcolor="#dce6fd" padding=".6em 0" mb={4}>
             <Container
               maxWidth="md"
               sx={{

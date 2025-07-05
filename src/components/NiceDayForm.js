@@ -209,7 +209,7 @@ const NiceDayForm = ({ handleSubmit, isLoading }) => {
         color="primary"
         sx={{
           display: "block",
-          marginTop: 2,
+          marginTop: 4,
           padding: theme.spacing(1, 5)
         }}
         disabled={!city || isLoading}
