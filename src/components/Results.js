@@ -31,8 +31,6 @@ const XTick = ({ payload: { value }, width, ...rest }) => (
 const Results = ({ data, loading }) => {
   const { firstCity, compareCity } = data;
 
-  console.log(firstCity, compareCity)
-
   const chartData = useMemo(() => {
     const data = map(firstCity.monthNiceDays, (days, month) => ({
       month,
@@ -48,7 +46,7 @@ const Results = ({ data, loading }) => {
   }, [firstCity, compareCity]);
 
   return (
-    <div className="results-area">
+    <div>
       <Box textAlign="center">
         <Dna visible={loading} height={150} width={300} />
       </Box>

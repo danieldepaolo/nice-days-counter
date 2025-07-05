@@ -53,8 +53,11 @@ body {
   gap: 12px;
 }
 
-.query-form .MuiFormControl-root {
-  margin: 0 10px;
+@media (max-width: 650px) {
+  .query-form {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
 
 .submit-line {
@@ -72,6 +75,7 @@ p.MuiTypography-gutterBottom {
 
 .results-area {
   padding: 1.5em 0em;
+  min-height: 300px;
 }
 
 .results-area label {
@@ -90,4 +94,14 @@ p.MuiTypography-gutterBottom {
     width: 90%;
     box-shadow: none;
   }
+}
+
+.custom-option {
+  transition: background-color 60ms;
+}
+.custom-option:hover {
+  background-color: #deebff;
+}
+.custom-option--is-selected {
+  background-color: rgb(162, 162, 235);
 }

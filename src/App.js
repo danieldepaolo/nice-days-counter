@@ -1,26 +1,34 @@
-import React, { useState } from 'react';
-import { DateTime } from "luxon"
-import cloneDeep from 'lodash/cloneDeep';
-import isEmpty from 'lodash/isEmpty';
-import { Box, Button, Container, ThemeProvider, StyledEngineProvider, Typography } from '@mui/material';
+import React, { useState } from "react";
+import { DateTime } from "luxon";
+import cloneDeep from "lodash/cloneDeep";
+import isEmpty from "lodash/isEmpty";
+import {
+  Box,
+  Button,
+  Container,
+  ThemeProvider,
+  StyledEngineProvider,
+  Typography,
+} from "@mui/material";
 
-import NiceDayForm from './components/NiceDayForm';
-import QueryForm from './components/QueryForm';
-import Results from './components/Results';
+import NiceDayForm from "./components/NiceDayForm";
+import QueryForm from "./components/QueryForm";
+import Results from "./components/Results";
 
 import {
   defaultNiceDayForm,
   defaultQueryForm,
-  defaultMonthNiceDays
-} from './util/constants';
-import { isNiceDay } from './util/helpers';
-import appLogo from './assets/aerial-photo-of-mountain-surrounded-by-fog-733174.jpg';
-import { fetchDailyWeatherDataForYear } from './service';
-import appTheme from "./Theme"
-import './styles/App.css';
+  defaultMonthNiceDays,
+} from "./util/constants";
+import { isNiceDay } from "./util/helpers";
+import appLogo from "./assets/aerial-photo-of-mountain-surrounded-by-fog-733174.jpg";
+import { fetchDailyWeatherDataForYear } from "./service";
+import appTheme from "./Theme";
+import "./styles/App.css";
 
 const App = () => {
-  const [niceDayFormValues, setNiceDayFormValues] = useState(defaultNiceDayForm);
+  const [niceDayFormValues, setNiceDayFormValues] =
+    useState(defaultNiceDayForm);
   const [queryFormValues, setQueryFormValues] = useState(defaultQueryForm);
   const [results, setResults] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -29,7 +37,7 @@ const App = () => {
   const compileResultsForCity = (city, dayArray) => {
     const monthNiceDays = cloneDeep(defaultMonthNiceDays);
     let niceDayCount = 0;
-    dayArray.forEach(day => {
+    dayArray.forEach((day) => {
       if (isNiceDay(day, niceDayFormValues)) {
         niceDayCount++;
         const month = DateTime.fromISO(day.day).toFormat("MMMM");
@@ -41,55 +49,54 @@ const App = () => {
       city,
       year: queryFormValues.year,
       monthNiceDays,
-      niceDayCount
+      niceDayCount,
     };
-  }
+  };
 
-  const updateFormState = setFunc => (field, value) => (
-    setFunc(prev => ({
+  const updateFormState = (setFunc) => (field, value) =>
+    setFunc((prev) => ({
       ...prev,
-      [field]: value
-    }))
-  )
+      [field]: value,
+    }));
 
   const getNiceDaysDataForCity = async (city) => {
     if (!city) {
-      return {}
+      return {};
     }
 
     const { year } = queryFormValues;
-    const { data, error } = await fetchDailyWeatherDataForYear({ city, year })
-    return { data: compileResultsForCity(city, data.daily), error }
-  }
+    const { data, error } = await fetchDailyWeatherDataForYear({ city, year });
+    return { data: compileResultsForCity(city, data.daily), error };
+  };
 
   const handleSubmitQuery = async () => {
-    if (!queryFormValues.city) return
+    if (!queryFormValues.city) return;
 
     try {
       const {
         city: { value: firstCity },
-        compareCity: { value: compareCity } = {}
+        compareCity: { value: compareCity } = {},
       } = queryFormValues;
 
-      setLoading(true)
+      setLoading(true);
       const firstCityResult = await getNiceDaysDataForCity(firstCity);
       const compareCityResult = await getNiceDaysDataForCity(compareCity);
-      const error = firstCityResult.error || compareCityResult?.error
+      const error = firstCityResult.error || compareCityResult?.error;
 
       if (isEmpty(error)) {
         setResults({
           firstCity: firstCityResult.data,
-          compareCity: compareCityResult.data
-        })
+          compareCity: compareCityResult.data,
+        });
       } else {
-        setReqErr(error)
+        setReqErr(error);
       }
     } catch (err) {
-      setReqErr(err)
+      setReqErr(err);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <div>
@@ -98,8 +105,14 @@ const App = () => {
           <div className="app-header-bar">
             <Container className="header-content" maxWidth="md">
               <div className="header-left">
-                <img src={appLogo} className="app-logo" alt="Nice Days Counter" />
-                <Typography variant="h4" className="app-title">Nice Days Counter</Typography>
+                <img
+                  src={appLogo}
+                  className="app-logo"
+                  alt="Nice Days Counter"
+                />
+                <Typography variant="h4" className="app-title">
+                  Nice Days Counter
+                </Typography>
               </div>
             </Container>
           </div>
@@ -125,12 +138,9 @@ const App = () => {
                 See Results
               </Button>
             </div>
-            {results && (
-              <Results
-                data={results}
-                loading={loading}
-              />
-            )}
+            <div className="results-area">
+              {results && <Results data={results} loading={loading} />}
+            </div>
             {reqErr && (
               <div className="error-text">
                 Unable to retrieve data. Please try again later.
@@ -142,6 +152,6 @@ const App = () => {
       </StyledEngineProvider>
     </div>
   );
-}
+};
 
 export default App;

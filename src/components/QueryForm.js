@@ -3,32 +3,22 @@ import { createFilter } from "react-select";
 import { Typography } from "@mui/material";
 
 import DropdownField from "../formFields/DropdownField";
-import VirtualizedSelect from "./VirtualizedSelect";
+import VirtualizedSelect from "./form/VirtualizedSelect";
+import CustomOption from "./form/CustomSelectOption";
 
 import orderBy from "lodash/orderBy";
-import citiesData from "../data/geonames-all-cities-with-a-population-1000.json";
+import citiesData from "../data/geonames-all-cities-with-a-population-10000.json";
 
 /* City record structure
 {
   "geoname_id": "4347553",
   "name": "Aspen Hill",
-  "ascii_name": "Aspen Hill",
-  "alternate_names": ["Aspen Hill"],
-  "feature_class": "P",
-  "feature_code": "PPL",
   "country_code": "US",
-  "cou_name_en": "United States",
-  "country_code_2": null,
   "admin1_code": "MD",
-  "admin2_code": "031",
-  "admin3_code": null,
-  "admin4_code": null,
   "population": 48759,
   "elevation": "100",
-  "dem": 99,
   "timezone": "America/New_York",
   "modification_date": "2018-09-24",
-  "label_en": "United States",
   "coordinates": { "lon": -77.07303, "lat": 39.07955 }
 }
 */
@@ -79,7 +69,12 @@ const QueryForm = ({ fieldState, handleChange }) => {
               ...provided,
               height: "100%",
             }),
+            menu: (provided) => ({
+              ...provided,
+              zIndex: 2,
+            }),
           }}
+          components={{ Option: CustomOption }}
           options={cityOptions}
           onChange={(value) => {
             handleChange("city", value);
@@ -101,7 +96,12 @@ const QueryForm = ({ fieldState, handleChange }) => {
               ...provided,
               height: "100%",
             }),
+            menu: (provided) => ({
+              ...provided,
+              zIndex: 2,
+            }),
           }}
+          components={{ Option: CustomOption }}
           options={cityOptions}
           onChange={(value) => {
             handleChange("compareCity", value);
