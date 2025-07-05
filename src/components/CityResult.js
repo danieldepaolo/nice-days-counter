@@ -21,7 +21,7 @@ const CityResult = ({ city, color }) => {
           </Box>{" "}
           <a
             href={getWikiUrl(name)}
-            className="better-link"
+            style={{ textDecoration: 'none' }}
             target="_blank"
             rel="noopener noreferrer"
           >

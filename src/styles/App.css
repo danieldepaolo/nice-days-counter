@@ -2,18 +2,3 @@ body {
   font-family: 'Roboto', sans-serif;
   margin: 0;
 }
-
-.app-logo {
-  display: inline-block;
-  height: 55px;
-  margin-right: 16px;
-  border-radius: 5px;
-}
-
-.better-link {
-  text-decoration: none;
-}
-
-p.MuiTypography-gutterBottom {
-  margin-bottom: 15px;
-}

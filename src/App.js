@@ -67,7 +67,11 @@ const App = () => {
               <Box display="flex" alignItems="center">
                 <img
                   src={appLogo}
-                  className="app-logo"
+                  style={{
+                    height: 55,
+                    marginRight: 16,
+                    borderRadius: 5,
+                  }}
                   alt="Nice Days Counter"
                 />
                 <Typography variant="h2" letterSpacing="1px">
@@ -82,10 +86,10 @@ const App = () => {
               {results && <Results data={results} loading={loading} />}
             </Box>
             {reqErr && (
-              <div className="error-text">
+              <Typography>
                 Unable to retrieve data. Please try again later.
                 {reqErr.message}
-              </div>
+              </Typography>
             )}
           </Container>
         </ThemeProvider>
