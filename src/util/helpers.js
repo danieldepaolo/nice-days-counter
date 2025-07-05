@@ -32,6 +32,7 @@ export const storeDataInCache = (city, year, data = {}) => {
 };
 
 export const getCachedData = (city, year) => {
+  console.log(city, year)
   const data = localStorage.getItem(convertCityToKey(city.name, year));
   const parsedData = data ? JSON.parse(data) : null;
   return parsedData;

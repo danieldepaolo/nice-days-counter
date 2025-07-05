@@ -1,10 +1,6 @@
 import React, { useState } from "react";
-import { DateTime } from "luxon";
-import cloneDeep from "lodash/cloneDeep";
 import isEmpty from "lodash/isEmpty";
 import {
-  Box,
-  Button,
   Container,
   ThemeProvider,
   StyledEngineProvider,
@@ -12,75 +8,32 @@ import {
 } from "@mui/material";
 
 import NiceDayForm from "./components/NiceDayForm";
-import QueryForm from "./components/QueryForm";
 import Results from "./components/Results";
 
-import {
-  defaultNiceDayForm,
-  defaultQueryForm,
-  defaultMonthNiceDays,
-} from "./util/constants";
-import { isNiceDay } from "./util/helpers";
 import appLogo from "./assets/aerial-photo-of-mountain-surrounded-by-fog-733174.jpg";
-import { fetchDailyWeatherDataForYear } from "./service";
+import WeatherDataService from "./service";
 import appTheme from "./Theme";
 import "./styles/App.css";
 
 const App = () => {
-  const [niceDayFormValues, setNiceDayFormValues] =
-    useState(defaultNiceDayForm);
-  const [queryFormValues, setQueryFormValues] = useState(defaultQueryForm);
   const [results, setResults] = useState(null);
   const [loading, setLoading] = useState(false);
   const [reqErr, setReqErr] = useState(false);
 
-  const compileResultsForCity = (city, dayArray) => {
-    const monthNiceDays = cloneDeep(defaultMonthNiceDays);
-    let niceDayCount = 0;
-    dayArray.forEach((day) => {
-      if (isNiceDay(day, niceDayFormValues)) {
-        niceDayCount++;
-        const month = DateTime.fromISO(day.day).toFormat("MMMM");
-        monthNiceDays[month].push(day);
-      }
-    });
+  const handleSubmitQuery = async (formValues) => {
+    console.log(formValues);
+    if (!formValues.city) return;
 
-    return {
-      city,
-      year: queryFormValues.year,
-      monthNiceDays,
-      niceDayCount,
-    };
-  };
-
-  const updateFormState = (setFunc) => (field, value) =>
-    setFunc((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
-
-  const getNiceDaysDataForCity = async (city) => {
-    if (!city) {
-      return {};
-    }
-
-    const { year } = queryFormValues;
-    const { data, error } = await fetchDailyWeatherDataForYear({ city, year });
-    return { data: compileResultsForCity(city, data.daily), error };
-  };
-
-  const handleSubmitQuery = async () => {
-    if (!queryFormValues.city) return;
+    const service = new WeatherDataService(formValues);
 
     try {
-      const {
-        city: { value: firstCity },
-        compareCity: { value: compareCity } = {},
-      } = queryFormValues;
-
       setLoading(true);
-      const firstCityResult = await getNiceDaysDataForCity(firstCity);
-      const compareCityResult = await getNiceDaysDataForCity(compareCity);
+      const firstCityResult = await service.getNiceDaysDataForCity(
+        formValues.city
+      );
+      const compareCityResult = await service.getNiceDaysDataForCity(
+        formValues.compareCity
+      );
       const error = firstCityResult.error || compareCityResult?.error;
 
       if (isEmpty(error)) {
@@ -117,27 +70,7 @@ const App = () => {
             </Container>
           </div>
           <Container maxWidth="md">
-            <Box mb={3}>
-              <NiceDayForm
-                fieldState={niceDayFormValues}
-                handleChange={updateFormState(setNiceDayFormValues)}
-              />
-            </Box>
-            <QueryForm
-              fieldState={queryFormValues}
-              handleChange={updateFormState(setQueryFormValues)}
-            />
-            <div className="submit-line">
-              <Button
-                variant="contained"
-                color="primary"
-                className="submit-btn"
-                disabled={!queryFormValues.city || loading}
-                onClick={handleSubmitQuery}
-              >
-                See Results
-              </Button>
-            </div>
+            <NiceDayForm handleSubmit={handleSubmitQuery} isLoading={loading} />
             <div className="results-area">
               {results && <Results data={results} loading={loading} />}
             </div>
