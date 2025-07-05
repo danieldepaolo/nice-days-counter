@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/nice-days-counter/static/css/main.986535e9.css",
-    "main.js": "/nice-days-counter/static/js/main.b260fa29.js",
+    "main.css": "/nice-days-counter/static/css/main.686d230e.css",
+    "main.js": "/nice-days-counter/static/js/main.1b44a8cb.js",
     "static/media/aerial-photo-of-mountain-surrounded-by-fog-733174.jpg": "/nice-days-counter/static/media/aerial-photo-of-mountain-surrounded-by-fog-733174.470aaeb3c2c9e1abb433.jpg",
     "index.html": "/nice-days-counter/index.html",
-    "main.986535e9.css.map": "/nice-days-counter/static/css/main.986535e9.css.map",
-    "main.b260fa29.js.map": "/nice-days-counter/static/js/main.b260fa29.js.map"
+    "main.686d230e.css.map": "/nice-days-counter/static/css/main.686d230e.css.map",
+    "main.1b44a8cb.js.map": "/nice-days-counter/static/js/main.1b44a8cb.js.map"
   },
   "entrypoints": [
-    "static/css/main.986535e9.css",
-    "static/js/main.b260fa29.js"
+    "static/css/main.686d230e.css",
+    "static/js/main.1b44a8cb.js"
   ]
 }
