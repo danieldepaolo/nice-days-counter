@@ -21,20 +21,22 @@ const tempMarks = [
 ];
 
 const totalPrecipMarks = [
-  { value: 0.01, label: "~None" },
+  { value: 0.01, label: "Dry" },
   { value: 0.2, label: "Light" },
   { value: 0.4, label: "Moderate" },
   { value: 0.8, label: "Heavy" },
 ];
 
 const sunshineDurationMarks = [
-  { value: 0, label: "No sun" },
+  { value: 0, label: "Grey" },
   { value: 2, label: "A taste" },
   { value: 4, label: "Moderate" },
-  { value: 8, label: "All day" },
+  { value: 8, label: "Sunny" },
 ];
 
 const yearOptions = [
+  { value: "2024", label: "2024" },
+  { value: "2023", label: "2023" },
   { value: "2022", label: "2022" },
   { value: "2021", label: "2021" },
   { value: "2020", label: "2020" },
@@ -88,53 +90,16 @@ const NiceDayForm = ({ handleSubmit, isLoading }) => {
 
   return (
     <form onSubmit={onPressSubmit}>
-      <Typography variant="h4">Define "Nice Day"</Typography>
-      <Box display="flex" flexDirection="column" gap={1} mb={4}>
-        <SliderField
-          name="tempRange"
-          label='High "Feels-like" Temperature Range'
-          marks={tempMarks}
-          min={30}
-          onChange={(value) => {
-            setTempRange(value);
-          }}
-          value={tempRange}
-        />
-        <SliderField
-          name="maxPrecip"
-          label="Highest Allowed Rain Total (inches)"
-          marks={totalPrecipMarks}
-          min={0.01}
-          max={1}
-          step={0.1}
-          onChange={(value) => {
-            setMaxPrecip(value);
-          }}
-          value={maxPrecip}
-        />
-        <SliderField
-          name="minSunshineDuration"
-          label="Minimum Sunshine Duration (hours)"
-          marks={sunshineDurationMarks}
-          min={0}
-          max={8}
-          onChange={(value) => {
-            setMinSunshineDuration(value);
-          }}
-          value={minSunshineDuration}
-        />
-      </Box>
-
-      <Typography variant="h4">City and Year</Typography>
+      <Typography variant="h4" mb={2}>City and Year</Typography>
       <Box
-        marginTop={2}
+        mb={4}
         display="flex"
         alignItems="center"
         gap={2}
         sx={{
           [theme.breakpoints.down("sm")]: {
             flexDirection: "column",
-            alignItems: 'flex-start'
+            alignItems: "flex-start",
           },
         }}
       >
@@ -202,6 +167,42 @@ const NiceDayForm = ({ handleSubmit, isLoading }) => {
           value={year}
         />
       </Box>
+      <Typography variant="h4">Define "Nice Day"</Typography>
+      <Box display="flex" flexDirection="column">
+        <SliderField
+          name="tempRange"
+          label='High "Feels-like" Temperature Range'
+          marks={tempMarks}
+          min={30}
+          onChange={(value) => {
+            setTempRange(value);
+          }}
+          value={tempRange}
+        />
+        <SliderField
+          name="maxPrecip"
+          label="Highest Allowed Rain Total (inches)"
+          marks={totalPrecipMarks}
+          min={0.01}
+          max={1}
+          step={0.1}
+          onChange={(value) => {
+            setMaxPrecip(value);
+          }}
+          value={maxPrecip}
+        />
+        <SliderField
+          name="minSunshineDuration"
+          label="Minimum Sunshine Duration (hours)"
+          marks={sunshineDurationMarks}
+          min={0}
+          max={8}
+          onChange={(value) => {
+            setMinSunshineDuration(value);
+          }}
+          value={minSunshineDuration}
+        />
+      </Box>
 
       <Button
         type="submit"
@@ -210,7 +211,7 @@ const NiceDayForm = ({ handleSubmit, isLoading }) => {
         sx={{
           display: "block",
           marginTop: 4,
-          padding: theme.spacing(1, 5)
+          padding: theme.spacing(1, 5),
         }}
         disabled={!city || isLoading}
       >

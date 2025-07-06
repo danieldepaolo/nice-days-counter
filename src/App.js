@@ -10,8 +10,8 @@ import {
 
 import NiceDayForm from "./components/NiceDayForm";
 import Results from "./components/Results";
+import NiceContainer from "./components/NiceContainer";
 
-import appLogo from "./assets/aerial-photo-of-mountain-surrounded-by-fog-733174.jpg";
 import WeatherDataService from "./service";
 import { theme } from "./Theme";
 import "./styles/App.css";
@@ -55,34 +55,32 @@ const App = () => {
     <div>
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={theme}>
-          <Box bgcolor="#dce6fd" padding=".6em 0" mb={4}>
+          <Box bgcolor="#dce6fd" mb={{ xs: 0, sm: 4 }}>
             <Container
               maxWidth="md"
               sx={{
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "space-between",
+                justifyContent: "center",
+                py: { xs: 1, sm: 2 }
               }}
             >
               <Box display="flex" alignItems="center">
-                <img
-                  src={appLogo}
-                  style={{
-                    height: 55,
-                    marginRight: 16,
-                    borderRadius: 5,
-                  }}
-                  alt="Nice Days Counter"
-                />
-                <Typography variant="h2" letterSpacing="1px">
+                <Typography variant="h1" letterSpacing="1px">
                   Nice Days Counter
                 </Typography>
               </Box>
             </Container>
           </Box>
-          <Container maxWidth="md">
-            <NiceDayForm handleSubmit={handleSubmitQuery} isLoading={loading} />
-            <Box sx={{ padding: "1.5em 0em", minWidth: "300px" }}>
+          <Container sx={{ p: 0 }} maxWidth="md">
+            <NiceContainer>
+              <NiceDayForm
+                handleSubmit={handleSubmitQuery}
+                isLoading={loading}
+              />
+            </NiceContainer>
+
+            <Box sx={{ padding: "1.5em 0em" }}>
               {results && <Results data={results} loading={loading} />}
             </Box>
             {reqErr && (

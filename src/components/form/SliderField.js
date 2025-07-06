@@ -16,7 +16,7 @@ const SliderField = ({
 
   const id = `range-slider-${label}`;
   return (
-    <Box width="82%" maxWidth={700} padding="20px 15px 3px 15px">
+    <Box width="92%" maxWidth={700} padding="20px 15px 3px 15px">
       <Typography mb={1} variant="body2" id={id}>
         {label}
       </Typography>
