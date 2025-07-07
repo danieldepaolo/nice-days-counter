@@ -11,7 +11,6 @@ import {
   CartesianGrid,
 } from "recharts";
 import { Box, Typography, useMediaQuery } from "@mui/material";
-import { Bars } from "react-loader-spinner";
 
 import CityResult from "./CityResult";
 import NiceContainer from "./NiceContainer";
@@ -23,7 +22,6 @@ import {
 } from "../util/constants";
 import { getMonthLabelWithChartWidth } from "../util/helpers";
 import { theme } from "../Theme";
-import CenteredContent from "./ui/CenteredContent";
 
 const XTick = ({ payload: { value }, width, ...rest }) => (
   <text {...rest} dy={12}>
@@ -34,7 +32,7 @@ const XTick = ({ payload: { value }, width, ...rest }) => (
 const Results = ({ data, loading }) => {
   const { firstCity, compareCity } = data;
 
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   const chartData = useMemo(() => {
     const data = map(firstCity.monthNiceDays, (days, month) => ({
@@ -52,21 +50,21 @@ const Results = ({ data, loading }) => {
 
   return (
     <div>
-      {loading && (
-        <CenteredContent width="100%" minHeight={200}>
-          <Bars visible={loading} height={150} width={300} />
-        </CenteredContent>
-      )}
       {firstCity && !loading && (
         <NiceContainer>
           <Typography variant="h4" mb={2}>
             Results
           </Typography>
-          <Box display="flex" flexWrap="wrap" gap={3} mb={3}>
+          <Box display="flex" justifyContent="space-around" flexWrap="wrap" gap={3} mb={3}>
             <CityResult city={firstCity} color={firstCityColor} />
+            <Box display="flex" flexDirection="column" gap={2} justifyContent="center">
+              <div>{`Temperature between ${data.formValues.tempRange[0]}\u00B0 F and ${data.formValues.tempRange[1]}\u00B0 F`}</div>
+              <div>{`At most ${data.formValues.maxPrecip} inches of rain`}</div>
+              <div>{`At least ${data.formValues.minSunshineDuration} hours of sun`}</div>
+            </Box>
             <CityResult city={compareCity} color={compareCityColor} />
           </Box>
-          <ResponsiveContainer height={isSmallScreen ? 280 : 400}>
+          <ResponsiveContainer height={isSmallScreen ? 280 : 360}>
             <BarChart
               data={chartData}
               margin={{ left: 20, right: 15, top: 10, bottom: 10 }}
