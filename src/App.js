@@ -59,7 +59,14 @@ const App = () => {
     <div>
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={theme}>
-          <Box bgcolor="#c1d8eb" mb={{ xs: 0, sm: 4 }}>
+          <Box
+            mb={{ xs: 0, sm: 2 }}
+            sx={{
+              [theme.breakpoints.down("sm")]: {
+                backgroundColor: 'rgb(251 251 237)',
+              },
+            }}
+          >
             <Container
               maxWidth="md"
               sx={{
