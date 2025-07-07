@@ -1,0 +1,1 @@
+{"version":3,"file":"static/css/main.dfc6af82.css","mappings":"AAAA,KAIE,uDAA8D,CAH9D,6BAAiC,CAEjC,YAAa,CADb,QAGF","sources":["styles/App.css"],"sourcesContent":["body {\r\n  font-family: 'Roboto', sans-serif;\r\n  margin: 0;\r\n  height: 100vh;\r\n  background: linear-gradient(to bottom, #fff, #f7f7e2, #eff0fd);\r\n}\r\n"],"names":[],"sourceRoot":""}
