@@ -13,7 +13,7 @@ import {
 import { Box, Typography, useMediaQuery } from "@mui/material";
 
 import CityResult from "./CityResult";
-import NiceContainer from "./NiceContainer";
+import NiceContainer from "./ui/NiceContainer";
 
 import {
   compareCityColor,

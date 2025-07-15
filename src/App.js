@@ -12,7 +12,7 @@ import { Bars } from "react-loader-spinner";
 
 import NiceDayForm from "./components/NiceDayForm";
 import Results from "./components/Results";
-import NiceContainer from "./components/NiceContainer";
+import NiceContainer from "./components/ui/NiceContainer";
 import CenteredContent from "./components/ui/CenteredContent";
 
 import WeatherDataService from "./service";
@@ -34,16 +34,21 @@ const App = () => {
       const firstCityResult = await service.getNiceDaysDataForCity(
         formValues.city
       );
-      const compareCityResult = await service.getNiceDaysDataForCity(
-        formValues.compareCity
-      );
+
+      let compareCityResult
+      if (formValues.compareCity) {
+        compareCityResult = await service.getNiceDaysDataForCity(
+          formValues.compareCity
+        );
+      }
+      
       const error = firstCityResult.error || compareCityResult?.error;
 
       if (isEmpty(error)) {
         setResults({
           formValues,
           firstCity: firstCityResult.data,
-          compareCity: compareCityResult.data,
+          compareCity: compareCityResult?.data,
         });
       } else {
         setReqErr(error);

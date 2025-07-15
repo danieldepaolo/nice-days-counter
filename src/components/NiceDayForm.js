@@ -83,7 +83,7 @@ const NiceDayForm = ({ handleSubmit, isLoading }) => {
       maxPrecip,
       minSunshineDuration,
       city: city.value,
-      compareCity: compareCity.value,
+      compareCity: compareCity?.value,
       year,
     });
   };
