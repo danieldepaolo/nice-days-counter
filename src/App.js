@@ -35,13 +35,13 @@ const App = () => {
         formValues.city
       );
 
-      let compareCityResult
+      let compareCityResult;
       if (formValues.compareCity) {
         compareCityResult = await service.getNiceDaysDataForCity(
           formValues.compareCity
         );
       }
-      
+
       const error = firstCityResult.error || compareCityResult?.error;
 
       if (isEmpty(error)) {
@@ -68,7 +68,7 @@ const App = () => {
             mb={{ xs: 0, sm: 2 }}
             sx={{
               [theme.breakpoints.down("sm")]: {
-                backgroundColor: 'rgb(251 251 237)',
+                backgroundColor: "rgb(251 251 237)",
               },
             }}
           >
@@ -104,7 +104,19 @@ const App = () => {
             )}
             {results && (
               <Box>
-                <Button onClick={() => setResults(null)}>New search</Button>
+                <Button
+                  disableRipple
+                  sx={{
+                    mb: 1,
+                    textTransform: "none",
+                    [theme.breakpoints.down("sm")]: {
+                      mt: 1,
+                    },
+                  }}
+                  onClick={() => setResults(null)}
+                >
+                  &larr; New search
+                </Button>
                 <Results data={results} loading={loading} />
                 {reqErr && (
                   <Typography>

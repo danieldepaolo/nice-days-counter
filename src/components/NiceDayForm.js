@@ -1,12 +1,13 @@
 import { useMemo, useState } from "react";
-import SliderField from "./form/SliderField";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import orderBy from "lodash/orderBy";
 import { createFilter } from "react-select";
 
 import DropdownField from "./form/DropdownField";
 import VirtualizedSelect from "./form/VirtualizedSelect";
 import CustomOption from "./form/CustomSelectOption";
+import SliderField from "./form/SliderField";
+import SectionHeading from "./ui/SectionHeading";
 
 import { theme } from "../Theme";
 
@@ -90,7 +91,7 @@ const NiceDayForm = ({ handleSubmit, isLoading }) => {
 
   return (
     <form onSubmit={onPressSubmit}>
-      <Typography variant="h4" mb={2}>City and Year</Typography>
+      <SectionHeading mb={3}>City and Year</SectionHeading>
       <Box
         mb={4}
         display="flex"
@@ -167,7 +168,7 @@ const NiceDayForm = ({ handleSubmit, isLoading }) => {
           value={year}
         />
       </Box>
-      <Typography variant="h4">Define "Nice Day"</Typography>
+      <SectionHeading mb={1}>Define "Nice Day"</SectionHeading>
       <Box display="flex" flexDirection="column">
         <SliderField
           name="tempRange"
@@ -208,10 +209,11 @@ const NiceDayForm = ({ handleSubmit, isLoading }) => {
         type="submit"
         variant="contained"
         color="primary"
+        fullWidth
         sx={{
           display: "block",
-          marginTop: 4,
-          padding: theme.spacing(1, 5),
+          marginTop: 6,
+          py: 1
         }}
         disabled={!city || isLoading}
       >

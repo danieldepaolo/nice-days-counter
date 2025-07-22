@@ -1,9 +1,10 @@
-import { Box, Paper, Typography } from "@mui/material";
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import { Box, Link, Typography } from "@mui/material";
+import { OpenInNew } from "@mui/icons-material";
+
 import isEmpty from "lodash/isEmpty";
 import { wikiUrl } from "../util/constants";
 
-const CityResult = ({ city, color }) => {
+const CityResult = ({ city, color, containerStyles }) => {
   if (isEmpty(city)) return null;
 
   const { city: cityData, niceDayCount, year } = city;
@@ -13,37 +14,29 @@ const CityResult = ({ city, color }) => {
     label ? `${wikiUrl}${label.replace(" ", "_")}` : null;
 
   return (
-    <Paper
-      elevation={1}
-      sx={{
-        py: 2,
-        px: 3,
-        borderRadius: 2,
-        backgroundColor: '#c1d8eb4a'
-      }}
-    >
+    <Box sx={containerStyles}>
       <Typography variant="h6">
         <Box component="span" color={color}>
           {name}
         </Box>{" "}
-        <a
+        <Link
           href={getWikiUrl(name)}
-          style={{ textDecoration: "none" }}
+          sx={{ position: "relative", top: 4 }}
           target="_blank"
           rel="noopener noreferrer"
         >
-          <InfoOutlinedIcon fontSize="small" />
-        </a>
+          <OpenInNew fontSize="small" />
+        </Link>
       </Typography>
       <Typography color="textSecondary" variant="subtitle2">
         {`Population ${population.toLocaleString()}`}
       </Typography>
-      <Box mt={2}>
+      <Box mt={1}>
         <Typography variant="body1">
           {niceDayCount} nice days in {year}
         </Typography>
       </Box>
-    </Paper>
+    </Box>
   );
 };
 
