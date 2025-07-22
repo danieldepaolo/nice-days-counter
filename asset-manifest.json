@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/nice-days-counter/static/css/main.dfc6af82.css",
-    "main.js": "/nice-days-counter/static/js/main.69558e40.js",
+    "main.js": "/nice-days-counter/static/js/main.a6cab6f1.js",
     "index.html": "/nice-days-counter/index.html",
     "main.dfc6af82.css.map": "/nice-days-counter/static/css/main.dfc6af82.css.map",
-    "main.69558e40.js.map": "/nice-days-counter/static/js/main.69558e40.js.map"
+    "main.a6cab6f1.js.map": "/nice-days-counter/static/js/main.a6cab6f1.js.map"
   },
   "entrypoints": [
     "static/css/main.dfc6af82.css",
-    "static/js/main.69558e40.js"
+    "static/js/main.a6cab6f1.js"
   ]
 }
